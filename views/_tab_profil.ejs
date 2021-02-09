@@ -1,0 +1,53 @@
+<table>
+  <caption><h2 style="
+margin: 0;
+padding: 2px;
+">Profil</h2></caption>
+  <tbody class="tab-profil">
+    <tr>
+      <td scope="row" class="tab-titre">Nom : </td>
+      <td scope="row">Coiffard</td>
+    </tr>
+    <tr>
+      <td scope="row" class="tab-titre">Prénom : </td>
+      <td scope="row">Alan</td>
+    </tr>
+    <tr>
+      <td scope="row" class="tab-titre">Mail : </td>
+      <td scope="row">
+        <div class="popover__wrapper">
+          <p id="mail" class="popover__title">alan.coiffarwsgefSGDFJGsqjgdfbsjfd@gmail.com</p>
+          <div id="pop" class="popover__content">
+            <p id="voir" class="popover__message"></p>
+          </div>
+        </div>
+        <script type="text/javascript">
+            var elt = document.getElementById("mail");
+            var monTexte = elt.innerText || elt.textContent;
+            console.log(monTexte);
+            console.log(monTexte.length);
+            //document.getElementById('pop').style.display = 'none';
+            if(monTexte.length > 20){
+              console.log("entre");
+              elt.textContent = "voir";
+              //document.getElementById('pop').style.display = flex;
+              document.getElementById("voir").innerHTML = monTexte;
+            }
+
+
+        </script>
+      </td>
+    </tr>
+    <tr>
+      <td scope="row" class="tab-titre">Avatar : </td>
+      <td scope="row"><img src="images/profil.png" class="img-profil" alt=""></td>
+    </tr>
+  </tbody>
+<!--        <tfoot>
+    <tr>
+      <th scope="row" colspan="2">Total de colliers</th>
+      <td colspan="2">2</td>
+    </tr>
+  </tfoot>
+-->
+</table>

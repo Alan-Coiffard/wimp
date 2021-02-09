@@ -223,8 +223,9 @@ li {
   height: 52%;
 }
 
-.image-li {
-
+.profil-infos {
+  display: flex;
+  justify-content: center;
 }
 
 .profil-colliers {
