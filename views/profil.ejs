@@ -1,0 +1,70 @@
+<%- include ("_header.ejs"); %>
+
+<div class="flex">
+  <div class="flex-items flex-item-50 profil-block">
+    <div class="profil-infos">
+      <h2>Profil</h2>
+      <ul>
+        <li>Nom : </li>
+        <li>Prénom : </li>
+        <li>Identifiant : </li>
+        <li>Mail : </li>
+        <li class="image-li">Avatar : <img src="images/profil.png" class="img-profil" alt=""></li>
+      </ul>
+    </div>
+    <div class="profil-colliers">
+      <table>
+        <caption><h2 style="
+    margin: 0;
+    padding: 2px;
+">Liste des colliers</h2></caption>
+        <thead>
+          <tr>
+            <th>Numéros de colliers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="row">0000000</td>
+          </tr>
+          <tr>
+            <td scope="row">0000001</td>
+          </tr>
+          <tr>
+            <td scope="row">0000002</td>
+          </tr>
+          <tr>
+            <td scope="row">0000003</td>
+          </tr>
+          <tr>
+            <td scope="row">0000000</td>
+          </tr>
+          <tr>
+            <td scope="row">0000001</td>
+          </tr>
+          <tr>
+            <td scope="row">0000002</td>
+          </tr>
+          <tr>
+            <td scope="row">0000003</td>
+          </tr>
+        </tbody>
+<!--        <tfoot>
+          <tr>
+            <th scope="row" colspan="2">Total de colliers</th>
+            <td colspan="2">2</td>
+          </tr>
+        </tfoot>
+-->
+      </table>
+    </div>
+  </div>
+  <div class="flex-items flex-item-50 profil-block">
+
+  </div>
+</div>
+<div class="btn-block">
+  <a href="/home" class="btn btn-profil-retour">Retour</a>
+</div>
+
+<%- include ("_footer.ejs"); %>

@@ -1,0 +1,28 @@
+<%- include ("_header.ejs"); %>
+<div class="flex">
+  <div class="flex-items flex-item-70">
+    <div class="map">
+      <div class="map-date">
+        <%- include ("_calendrier.ejs"); %>
+      </div>
+      <div class="map-api">
+        API
+      </div>
+    </div>
+  </div>
+  <div class="flex-items flex-item-30">
+    <div class="options">
+      <div class="options-profil">
+        <a href="/profil">
+          <img src="images/profil.png" class="img-profil" alt="">
+          <p>Votre profil</p>
+        </a>
+      </div>
+      <div class="options-api">
+        Options
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include ("_footer.ejs"); %>

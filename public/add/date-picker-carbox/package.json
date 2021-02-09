@@ -1,0 +1,29 @@
+{
+  "name": "carbox-date-picker",
+  "version": "0.2.0",
+  "description": "a tiny and fast zero-dependency date-picker fully compatible with any UI framework or without a framework at all!",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/oxamide/carbox-date-picker.git"
+  },
+  "keywords": [
+    "date",
+    "picker",
+    "date-picker",
+    "calendar"
+  ],
+  "author": "Nezar Tarbin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/oxamide/carbox-date-picker/-/issues"
+  },
+  "homepage": "https://gitlab.com/oxamide/carbox-date-picker",
+  "devDependencies": {
+    "webpack": "^5.15.0",
+    "webpack-cli": "^3.3.12"
+  }
+}
