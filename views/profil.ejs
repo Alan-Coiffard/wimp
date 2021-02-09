@@ -12,55 +12,14 @@
         <li class="image-li">Avatar : <img src="images/profil.png" class="img-profil" alt=""></li>
       </ul>
     </div>
-    <div class="profil-colliers">
-      <table>
-        <caption><h2 style="
-    margin: 0;
-    padding: 2px;
-">Liste des colliers</h2></caption>
-        <thead>
-          <tr>
-            <th>Numéros de colliers</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td scope="row">0000000</td>
-          </tr>
-          <tr>
-            <td scope="row">0000001</td>
-          </tr>
-          <tr>
-            <td scope="row">0000002</td>
-          </tr>
-          <tr>
-            <td scope="row">0000003</td>
-          </tr>
-          <tr>
-            <td scope="row">0000000</td>
-          </tr>
-          <tr>
-            <td scope="row">0000001</td>
-          </tr>
-          <tr>
-            <td scope="row">0000002</td>
-          </tr>
-          <tr>
-            <td scope="row">0000003</td>
-          </tr>
-        </tbody>
-<!--        <tfoot>
-          <tr>
-            <th scope="row" colspan="2">Total de colliers</th>
-            <td colspan="2">2</td>
-          </tr>
-        </tfoot>
--->
-      </table>
+    <div class="profil-colliers tableau">
+      <%- include ("_liste_collier.ejs"); %>
     </div>
   </div>
-  <div class="flex-items flex-item-50 profil-block">
-
+  <div class="flex-items flex-item-50 profil-block tableau">
+    <div class="profil-animaux">
+      <%- include ("_liste_animaux.ejs"); %>
+    </div>
   </div>
 </div>
 <div class="btn-block">
