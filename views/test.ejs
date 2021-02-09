@@ -2,18 +2,41 @@
 <html lang="fr" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Test</title>
+    <title></title>
   </head>
   <style media="screen">
+  .profil-animaux {
+    justify-content: center;
+    display: flex;
+    line-height: normal;
+    list-style: none;
+    padding-inline-start: 0;
+    height: 100%;
+
+    padding: 10px;
+  }
+  .tableau table {
+    border: medium solid #6495ed;
+    border-collapse: collapse;
+    height: 50%;
+    width: 80%;
+  }
+
   .profil-colliers tbody {
-    display: inline-block;
+    display: block;
     width: 100%;
+    height: 100px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
   }
-  .profil-colliers table {
-  border: medium solid #6495ed;
-  border-collapse: collapse;
+
+  .profil-animaux tbody {
+    height: 100px;
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
   }
-  .profil-colliers th {
+
+  .tableau th {
   font-family: monospace;
   border: thin solid #6495ed;
   width: 100%;
@@ -21,68 +44,65 @@
   background-color: #D0E3FA;
   background-image: url(sky.jpg);
   }
-  .profil-colliers td {
+  .tableau tr {
+
+  }
+  .tableau td {
   font-family: sans-serif;
   border: thin solid #6495ed;
-  width: 50%;
+  width: 10%;
   padding: 5px;
   text-align: center;
   background-color: #ffffff;
   }
-  .profil-colliers caption {
+  .tableau caption {
   font-family: sans-serif;
   }
-  .profil-colliers tbody {
-    height: 100px;       /* Just for the demo          */
-    overflow-y: auto;    /* Trigger vertical scroll    */
-    overflow-x: hidden;  /* Hide the horizontal scroll */
-}
-
 
   </style>
   <body>
-    <div class="profil-colliers">
-      <table>
-        <caption>Liste des colliers</caption>
-        <thead>
-          <tr>
-            <th>Numéros de colliers</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td scope="row">0000000</td>
-          </tr>
-          <tr>
-            <td scope="row">0000001</td>
-          </tr>
-          <tr>
-            <td scope="row">0000002</td>
-          </tr>
-          <tr>
-            <td scope="row">0000003</td>
-          </tr>
-          <tr>
-            <td scope="row">0000000</td>
-          </tr>
-          <tr>
-            <td scope="row">0000001</td>
-          </tr>
-          <tr>
-            <td scope="row">0000002</td>
-          </tr>
-          <tr>
-            <td scope="row">0000003</td>
-          </tr>
-        </tbody>
-<!--        <tfoot>
-          <tr>
-            <th scope="row" colspan="2">Total de colliers</th>
-            <td colspan="2">2</td>
-          </tr>
-        </tfoot>
--->
-      </table>
+    <div class="flex-items flex-item-50 profil-block">
+      <div class="">
+        <table cellspacing="0" cellpadding="0" style="border:solid 1px black; font-family:verdana; font-size:12px;">
+  <thead>
+    <tr style="background-color:lightgrey; height:20px;">
+      <th style="width:120px;">Titre 1</th>
+      <th style="width:120px;">Titre 2</th>
+      <th style="width:18px;"></th>
+    </tr>
+  </head>
+  <tfoot>
+    <tr style="background-color:lightgrey; text-align:center;">
+      <td colspan="2">Informations complémentaires...<br/>Remarques...</td>
+      <td></td>
+    </tr>
+  </tfoot>
+  <tbody>
+    <tr>
+      <td colspan="3">
+        <div style="height:100px; overflow:auto; border-top:solid 1px black; border-bottom:solid 1px black;">
+          <table cellspacing="0" cellpadding="0" style="color:midnightblue; font-family:verdana; font-size:12px; text-align:center;">
+            <tr><td style="width:120px;">donnée 1</td><td style="width:120px;">donnée 2</td><td style="width:120px;">donnée 3</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+            <tr><td>donnée 1</td><td>donnée 2</td></tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+      </div>
+      <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
     </div>
   </body>
 </html>
