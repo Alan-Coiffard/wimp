@@ -75,7 +75,7 @@ font-family: sans-serif;
   display: none;
   visibility: hidden;
   position: absolute;
-  transform: translate(0, 10px);
+  transform: translate(-150px, -10px);
   background-color: #bfbfbf;
   padding: 10px;
   box-shadow: 0 2px 5px 0 rgb(0 0 0 / 26%);
@@ -84,15 +84,14 @@ font-family: sans-serif;
 }
 @media (max-width: 620px){
   .popover__content {
-    max-width: 100px;
+    max-width: 78%;
   }
 }
-
+/*
 .popover__content:before {
   position: absolute;
   z-index: -1;
   content: "";
-  /*right: calc(50% - 10px);*/
   left: 0;
   top: -8px;
   border-style: solid;
@@ -100,12 +99,12 @@ font-family: sans-serif;
   border-color: transparent transparent #bfbfbf transparent;
   transition-duration: 0.3s;
   transition-property: transform;
-}
+}*/
 .popover__wrapper:hover .popover__content {
   z-index: 10;
   display: block;
   visibility: visible;
-  transform: translate(0, -20px);
+    transform: translate(-50%, -20px);
   transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
 }
 .popover__message {

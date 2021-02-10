@@ -2,6 +2,7 @@
   <caption><h2 style="
 margin: 0;
 padding: 2px;
+margin-bottom: 5px;
 ">Profil</h2></caption>
   <tbody class="tab-profil">
     <tr>
@@ -16,15 +17,9 @@ padding: 2px;
       <td scope="row" class="tab-titre">Mail : </td>
       <td scope="row">
         <div class="popover__wrapper petit" id="petit">
-          <p id="mailP" class="popover__title">alan.coiffarwsgefSGDFJGsqjgdfbsjfd@gmail.com</p>
+          <p id="mailP" class="popover__title">aaaaaaaaaaaaaaaaaada</p>
           <div id="popP" class="popover__content">
             <p id="voirP" class="popover__message"></p>
-          </div>
-        </div>
-        <div class="popover__wrapper grand" id="grand">
-          <p id="mailG" class="popover__title">alan.coiffarwsgefSGDFJGsqjgdfbsjfd@gmail.com</p>
-          <div id="popG" class="popover__content">
-            <p id="voirG" class="popover__message"></p>
           </div>
         </div>
       </td>
@@ -42,3 +37,30 @@ padding: 2px;
   </tfoot>
 -->
 </table>
+<script type="text/javascript">
+    var mailP        = document.getElementById("mailP");
+
+    var popP         = document.getElementById("popP");
+
+    var voirP        = document.getElementById("voirP");
+
+    var monTexteP = mailP.innerText || mailP.textContent || mailP.innerHTML;
+
+    console.log(monTexteP);
+    console.log(monTexteP.length);
+    //document.getElementById('pop').style.display = 'none';
+    if (monTexteP.length < 20)
+    {
+      console.log("entre supprime Petit");
+      popP.style.display = 'none';
+    }
+    else
+    {
+      console.log("entre ajouter Petit");
+      mailP.textContent = "voir";
+      popP.style.display = 'flex';
+      voirP.innerHTML = monTexteP;
+    }
+
+
+</script>

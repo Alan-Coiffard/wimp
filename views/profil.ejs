@@ -5,7 +5,7 @@
   <div class="nonslider-insc">
     <div class="flex-items flex-item-50 profil-block">
       <div class="profil-infos">
-        <%- include ("_tab_profil.ejs"); %>
+        <%- include ("_tab_profilG.ejs"); %>
       </div>
       <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
 
@@ -29,7 +29,7 @@
       <div class="mySlides">
         <div class="flex-items flex-item-50 profil-block">
           <div class="profil-infos">
-            <%- include ("_tab_profil.ejs"); %>
+            <%- include ("_tab_profilP.ejs"); %>
           </div>
           <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
         </div>
@@ -91,5 +91,87 @@
 <div class="btn-block">
   <a href="/home" class="btn btn-profil-retour">Retour</a>
 </div>
+
+<script type="text/javascript">
+
+    function longueurMailGrand() {
+      var parentDOM   = document.getElementById("grand");
+      console.log(parentDOM);
+      var mailG        = parentDOM.getElementsByClassName("popover__title")[0];
+      console.log(mailG);
+      var popG         = parentDOM.getElementsByClassName("popover__content")[0];
+      var voirG        = parentDOM.getElementsByClassName("popover__message")[0];
+
+      var monTexteG = mailG.innerText || mailG.textContent || mailG.innerHTML;
+
+      console.log(monTexteG);
+      console.log(monTexteG.length);
+      //document.getElementById('pop').style.display = 'none';
+      if (monTexteG.length < 20)
+      {
+        console.log("entre supprime");
+        popG.style.display = 'none';
+      }
+      else
+      {
+        console.log("entre ajouter");
+        mailG.textContent = "voir";
+        popG.style.display = 'flex';
+        voirG.innerHTML = monTexteG;
+      }
+    }
+
+    function longueurMail() {
+      var mailP        = document.getElementById("mailP");
+      var mailG        = document.getElementById("mailG");
+
+      var popP         = document.getElementById("popP");
+      var popG         = document.getElementById("popG");
+
+      var voirP        = document.getElementById("voirP");
+      var voirG        = document.getElementById("voirG");
+
+      var monTexteP = mailP.innerText || mailP.textContent || mailP.innerHTML;
+      var monTexteG = mailG.innerText || mailG.textContent || mailG.innerHTML;
+
+      console.log(monTexteP);
+      console.log(monTexteP.length);
+      console.log(monTexteG);
+      console.log(monTexteG.length);
+      //document.getElementById('pop').style.display = 'none';
+      if (monTexteP.length < 20)
+      {
+        console.log("entre supprime Petit");
+        popP.style.display = 'none';
+      }
+      else
+      {
+        console.log("entre ajouter Petit");
+        mailP.textContent = "voir";
+        popP.style.display = 'flex';
+        voirP.innerHTML = monTexteP;
+      }
+
+      if (monTexteG.length < 20 || monTexteP.length < 20)
+      {
+        console.log("entre supprime Grrand");
+        popG.style.display = 'none';
+        console.log("entre supprime Petit");
+        popP.style.display = 'none';
+      }
+      else
+      {
+        console.log("entre ajouter Grand");
+        mailG.textContent = "voir";
+        popG.style.display = 'flex';
+        voirG.innerHTML = monTexteG;
+        console.log("entre ajouter Petit");
+        mailP.textContent = "voir";
+        popP.style.display = 'flex';
+        voirP.innerHTML = monTexteP;
+      }
+    }
+
+</script>
 
 <%- include ("_footer.ejs"); %>

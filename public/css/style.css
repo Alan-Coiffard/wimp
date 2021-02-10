@@ -697,6 +697,10 @@ html, body {
   .nonslider {
     display: none;
   }
+
+  .grand {
+    display: block;
+  }
 }
 @media (max-width: 800px){
   .form-block {
@@ -708,5 +712,11 @@ html, body {
   }
   .nonslider-insc {
     display: none!important;
+  }
+  .grand {
+    display: none;
+  }
+  .petit {
+    display: block;
   }
 }
