@@ -697,8 +697,10 @@ html, body {
   .nonslider {
     display: none;
   }
-
-  .grand {
+  .phone {
+    display: none;
+  }
+  .screen {
     display: block;
   }
 }
@@ -713,10 +715,10 @@ html, body {
   .nonslider-insc {
     display: none!important;
   }
-  .grand {
+  .screen {
     display: none;
   }
-  .petit {
+  .phone {
     display: block;
   }
 }
