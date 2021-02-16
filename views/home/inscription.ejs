@@ -1,0 +1,101 @@
+<%- include ("../_partial/_header.ejs"); %>
+<div class="block block-centre">
+  <a href="/" class="btn btn-retour" type="button">Retour</a>
+  <div class="container">
+    <h1 class="titre2">Inscription</h1>
+    <form class="inscription inscription-petit" action="/inscription" method="post">
+      <div class="form-block">
+        <!------------Slider du form-------------------->
+        <div class="slider">
+          <div class="slideshow-container">
+            <!-- Full-width images with number and caption text -->
+            <div class="mySlides fade">
+              <fieldset>
+                <legend class="numbertext">1 / 2</legend>
+                <legend>Identitée</legend>
+                <div>
+                  <label for="">Mail :   </label>
+                  <input  type="email"
+                          placeholder="Adresse mail"
+                          name="email"
+                          aria-describedby="basic-addon1">
+                </div>
+                <div>
+                  <label for="">Nom :      </label>
+                  <input  type="text"
+                          placeholder="Nom"
+                          name="nom"
+                          aria-describedby="basic-addon1">
+                </div>
+                <div>
+                  <label for="">Prénom :   </label>
+                  <input  type="text"
+                          placeholder="Prénom"
+                          name="prenom"
+                          aria-describedby="basic-addon1">
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="mySlides fade">
+              <fieldset>
+                <legend class="numbertext">2 / 2</legend>
+                <legend>Mot de passe</legend>
+                <div>
+                  <label for="">Mot de passe :      </label>
+                  <input  type="password"
+                          name="password"
+                          placeholder="Mot de passe"
+                          aria-describedby="basic-addon1">
+                </div>
+                <div>
+                  <label for="">Confirmation :      </label>
+                  <input  type="password"
+                          placeholder="Mot de passe"
+                          aria-describedby="basic-addon1"
+                          name="repassword">
+                </div>
+              </fieldset>
+            </div>
+            <!-- Next and previous buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+          </div>
+          <br>
+        </div>
+        <!---------------------Fin du Slider-------------------------->
+      </div>
+      <input type="submit" class="btn btn-envoyer" value="Inscription" />
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+  var slideIndex = 1;
+  showSlides(slideIndex);
+
+  // Next/previous controls
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  // Thumbnail image controls
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+
+  function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    var dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";
+  }
+</script>
+<%- include ("../_partial/_footer.ejs"); %>

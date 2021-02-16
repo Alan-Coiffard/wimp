@@ -1,0 +1,59 @@
+<table>
+  <caption><h2 style="margin: 0; padding: 2px;">Profil</h2></caption>
+  <tbody class="tab-profil">
+    <form class="" action="" method="post" enctype="multipart/form-data">
+      <tr>
+        <td scope="row" class="tab-titre">Nom : </td>
+        <td scope="row"><input type="text" name="nom" value="Coiffard"></td>
+      </tr>
+      <tr>
+        <td scope="row" class="tab-titre">Prénom : </td>
+        <td scope="row"><input type="text" name="prenom" value="Alan"></td>
+      </tr>
+      <tr>
+        <td scope="row" class="tab-titre">Mail : </td>
+        <td scope="row"><input type="mail" name="mail" value="alan.coiffar@gmail.com"></td>
+      </tr>
+      <tr>
+        <td scope="row" class="tab-titre">Avatar : </td>
+        <td scope="row"><img src="images/profil.png" class="img-profil" alt=""></td>
+        <input type="file" name="nom" />
+      </tr>
+    </form>
+  </tbody>
+<!--        <tfoot>
+    <tr>
+      <th scope="row" colspan="2">Total de colliers</th>
+      <td colspan="2">2</td>
+    </tr>
+  </tfoot>
+-->
+</table>
+
+<script type="text/javascript">
+    var mailP        = document.getElementById("mailP");
+
+    var popP         = document.getElementById("popP");
+
+    var voirP        = document.getElementById("voirP");
+
+    var monTexteP = mailP.innerText || mailP.textContent || mailP.innerHTML;
+
+    console.log(monTexteP);
+    console.log(monTexteP.length);
+    //document.getElementById('pop').style.display = 'none';
+    if (monTexteP.length < 20)
+    {
+      console.log("entre supprime Petit");
+      popP.style.display = 'none';
+    }
+    else
+    {
+      console.log("entre ajouter Petit");
+      mailP.textContent = "voir";
+      popP.style.display = 'flex';
+      voirP.innerHTML = monTexteP;
+    }
+
+
+</script>

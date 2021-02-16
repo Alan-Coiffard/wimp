@@ -1,0 +1,29 @@
+<%- include ("../_partial/_header.ejs"); %>
+<div class="flex">
+  <div class="flex-items flex-item-70">
+    <div class="map">
+      <div class="map-date">
+        <%- include ("../_partial/_calendrier.ejs"); %>
+      </div>
+      <div class="map-api">
+        API
+      </div>
+    </div>
+  </div>
+  <div class="flex-items flex-item-30">
+    <div class="options">
+      <div class="options-profil">
+        <a href="/autreProfil">
+          <img src="images/profil.png" class="img-profil" alt="">
+          <a href="/deconnexion"><img class="img-profil" src="https://img.icons8.com/pastel-glyph/64/000000/exit--v2.png"/></a>
+
+        </a>
+      </div>
+      <div class="options-api">
+        Options
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include ("../_partial/_footer.ejs"); %>

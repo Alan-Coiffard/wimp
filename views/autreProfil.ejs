@@ -1,0 +1,92 @@
+<%- include ("_partial/_header.ejs"); %>
+<link rel="stylesheet" href="css/profil2.css">
+
+<div class="flex">
+  <div class="flex-items flex-item-90 profil-block">
+    <div class="entete entete-normal">
+      <h2 style="padding: 0; margin: 0;"><u>Profil</u></h2>
+      <a href="/profil">
+        <img src="images/profil.png" class="img-profil" alt="">
+      </a>
+      <p><u>Nom</u> : <%- currentUser.nom %></p>
+      <p><u>Prénom</u> : <%- currentUser.prenom %></p>
+      <p><u>E-mail</u> : <%- currentUser.email %></p>
+      <button type="button" class="btn btn-envoyer" onclick="modifier();" name="button">Modifier</button>
+    </div>
+    <div class="entete entete-modifier">
+      <h2 style="padding: 0; margin: 0;"><u>Profil</u></h2>
+      <form action="index.html" method="post" enctype="multipart/form-data">
+        <a href="/profil">
+          <img src="images/profil.png" class="img-profil" alt="">
+          <input class="rien" type="file" id="file" name="file">
+        </a>
+        <p><u>Nom</u> : <input type="text" name="nom" value="<%- currentUser.nom %>"></p>
+        <p><u>Prénom</u> : <input type="text" name="prenom" value="<%- currentUser.prenom %>"></p>
+        <p><u>E-mail</u> : <input type="mail" name="email" value="<%- currentUser.email %>"></p>
+        <button onclick="annuler();" type="button" class="btn btn-annuler" name="button">Annuler</button>
+        <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
+      </form>
+    </div>
+    <div class="choix">
+      <button type="button" id="animaux" class="btn btn-choix btn-select" onclick="animaux();" name="button">Animaux</button>
+      <button type="button" id="colliers" class="btn btn-choix" onclick="colliers();" name="button">Colliers</button>
+    </div>
+    <div class="listes">
+      <div class="liste-animaux">
+        <%- include("_partial/profil/_liste_animaux.ejs"); %>
+      </div>
+      <div class="liste-colliers">
+        <%- include("_partial/profil/_liste_collier.ejs"); %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function modifier(){
+    var enteteN = document.getElementsByClassName("entete-normal");
+    var enteteM = document.getElementsByClassName("entete-modifier");
+    console.log(enteteN);
+    console.log(enteteM);
+    enteteN[0].style.display = "none";
+    enteteM[0].style.display = "block";
+  }
+  function annuler(){
+    var enteteN = document.getElementsByClassName("entete-normal");
+    var enteteM = document.getElementsByClassName("entete-modifier");
+    console.log(enteteN);
+    console.log(enteteM);
+    enteteN[0].style.display = "block";
+    enteteM[0].style.display = "none";
+  }
+  function animaux(){
+    var animaux = document.getElementById("animaux");
+    var colliers = document.getElementById("colliers");
+    console.log(animaux);
+    console.log(colliers);
+    animaux.style.display = "none";
+    colliers.style.display = "inherit";
+  }
+  function colliers(){
+    var btn_animaux = document.getElementById("animaux");
+    var btn_colliers = document.getElementById("colliers");
+    var animaux = document.getElementsByClassName("liste-animaux");
+    var colliers = document.getElementsByClassName("liste-colliers");
+    animaux[0].style.display = "none";
+    colliers[0].style.display = "inherit";
+    btn_animaux.style.backgroundColor = "var(--grisleg)";
+    btn_colliers.style.backgroundColor = "var(--marronleg)";
+  }
+  function animaux(){
+    var btn_animaux = document.getElementById("animaux");
+    var btn_colliers = document.getElementById("colliers");
+    var animaux = document.getElementsByClassName("liste-animaux");
+    var colliers = document.getElementsByClassName("liste-colliers");
+    colliers[0].style.display = "none";
+    animaux[0].style.display = "inherit";
+    btn_colliers.style.backgroundColor = "var(--grisleg)";
+    btn_animaux.style.backgroundColor = "var(--marronleg)";
+  }
+</script>
+
+<%- include ("_partial/_footer.ejs"); %>

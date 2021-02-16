@@ -1,23 +1,23 @@
-<%- include ("_header.ejs"); %>
+<%- include ("_partial/_header.ejs"); %>
 <link rel="stylesheet" href="css/profil.css">
 
 <div class="flex">
   <div class="nonslider-insc">
     <div class="flex-items flex-item-50 profil-block">
       <div class="profil-infos">
-        <%- include ("_tab_profilG.ejs"); %>
+        <%- include ("_partial/profil/_tab_profilG.ejs"); %>
       </div>
       <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
 
       <div class="profil-colliers tableau">
-        <%- include ("_liste_collier.ejs"); %>
+        <%- include ("_partial/profil/_liste_collier.ejs"); %>
       </div>
       <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
 
     </div>
     <div class="flex-items flex-item-50 profil-block">
       <div class="profil-animaux">
-        <%- include ("_liste_animaux.ejs"); %>
+        <%- include ("_partial/profil/_liste_animaux.ejs"); %>
       </div>
       <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
     </div>
@@ -29,15 +29,26 @@
       <div class="mySlides">
         <div class="flex-items flex-item-50 profil-block">
           <div class="profil-infos">
-            <%- include ("_tab_profilP.ejs"); %>
+            <%- include (recept); %>
           </div>
-          <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
+          <button type="button" class="btn btn-envoyer" onclick="changerLien();" value="_tab_profilP_modifier" name="button">Modifier</button>
+          <!-- <script type="text/javascript">
+            function changerLien() {
+              let data = '<%-recept%>';
+              console.log(data);
+              const lien = data.split('.');
+              console.log(lien[0]);
+              console.log(lien[1]);
+              recept = lien[0]+'_modifier.'+lien[1];
+              console.log(recept);
+            }
+          </script> -->
         </div>
       </div>
       <div class="mySlides">
         <div class="flex-items flex-item-50 profil-block tableau">
           <div class="profil-colliers">
-            <%- include ("_liste_collier.ejs"); %>
+            <%- include ("_partial/profil/_liste_collier.ejs"); %>
           </div>
           <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
         </div>
@@ -45,7 +56,7 @@
       <div class="mySlides">
         <div class="flex-items flex-item-50 profil-block">
           <div class="profil-animaux">
-            <%- include ("_liste_animaux.ejs"); %>
+            <%- include ("_partial/profil/_liste_animaux.ejs"); %>
           </div>
           <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
         </div>
@@ -174,4 +185,4 @@
 
 </script>
 
-<%- include ("_footer.ejs"); %>
+<%- include ("_partial/_footer.ejs"); %>

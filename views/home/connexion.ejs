@@ -1,0 +1,29 @@
+<%- include ("../_partial/_header.ejs"); %>
+<div class="block block-centre">
+  <a href="/" class="btn btn-retour" type="button">Retour</a>
+  <div class="container">
+    <h1 class="titre2">Connexion</h1>
+    <form class="connexion" action="/connexion" method="post">
+      <fieldset>
+        <div>
+          <label for="">Mail :      </label>
+          <input  type="text"
+                  placeholder="Email"
+                  name="email"
+                  aria-describedby="basic-addon1">
+        </div>
+        <div>
+          <label for="">Mot de passe :      </label>
+          <input  type="password"
+                  placeholder="Mot de passe"
+                  name="password"
+                  aria-describedby="basic-addon1">
+        </div>
+      </fieldset>
+      <input type="submit" class="btn btn-envoyer co" value="Connection" />
+
+
+    </form>
+  </div>
+</div>
+<%- include ("../_partial/_footer.ejs"); %>

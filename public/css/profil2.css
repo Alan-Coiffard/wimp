@@ -1,0 +1,220 @@
+.flex {
+  justify-content: center;
+  height: 80vh;
+}
+.profil-block {
+  border: 3px var(--gris);
+  background-color: white;
+  height: 100%;
+  display: flex;
+  text-align: center;
+  border-radius: 5px;
+  flex-direction: column;
+  justify-content: center;
+}
+/***************Entete**********************/
+.img-profil {
+    width: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 0;
+    vertical-align: middle;
+}
+
+.entete {
+  height: 65%;
+}
+
+.entete-modifier p, .entete p {
+  margin: 5px;
+}
+
+.entete-normal {
+  display: none;
+}
+
+.btn-envoyer, .btn-annuler {
+  padding: 5px;
+  margin-top: 10px;
+}
+
+u {
+  font-weight: bold;
+}
+
+/*************Choix**********************/
+
+.choix {
+  height: 30px;
+}
+
+.btn-choix {
+  /*border-radius: 20px;*/
+  /* padding: 10px; */
+  width: 49.2%;
+  /* text-align: center; */
+  /* min-width: 100px; */
+  /* max-width: 200px; */
+  /* margin: 5vw; */
+  text-align: center;
+  background-color: var(--grisleg);
+  justify-content: center;
+  /* display: inherit; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  box-shadow: 0 0 0 0;
+  height: 95%;
+  border: 1px solid var(--grisleg);
+  border-bottom: 0;
+}
+
+.btn-select {
+  background-color: var(--marronleg);
+}
+
+/*************Liste******************/
+.listes {
+  height: 65%;
+  display: flex;
+  justify-content: center;
+}
+
+.liste-colliers {
+  display: none;
+}
+
+/*********Tableaux***********/
+
+  /*********Tableau animaux***********/
+    .animaux-table {
+      border: 3px solid var(--bleuleg);
+      font-family: verdana;
+      font-size: 12px;
+    }
+
+    .animaux-tr {
+      background-color:var(--bleuleg);
+      height:20px;
+    }
+
+    .animaux-tr th, .animaux-tab-tab tr {
+      width: 120px;
+    }
+
+    .animaux-div {
+      height:100px;
+      overflow:auto;
+    }
+
+    .animaux-tab-tab {
+      color:var(--bleuleg);
+      font-family:verdana;
+      font-size:12px;
+      text-align:center;
+          height: 100%;
+    }
+
+    .animaux-tab-tab td {
+      width:120px;
+    }
+
+  /*********Tableau colliers***********/
+    .colliers-table {
+      border: solid 1px grey;
+      font-family: verdana;
+      font-size: 12px;
+      border-collapse: collapse;
+      display: grid;
+      border: 0;
+    }
+
+    .colliers-capt {
+      margin: 0;
+      padding: 2px;
+    }
+
+    .colliers-table tbody {
+      max-height: 90%;
+      overflow-y: auto;
+      display: inline-grid;
+    }
+    .colliers-table tbody tr {
+      border: 2px solid var(--bleuleg);
+    }
+
+    .colliers-table thead tr {
+      display: inline-grid;
+    }
+
+    .colliers-table td {
+      width:120px;
+    }
+
+    .colliers-table th {
+      margin: 5px;
+    }
+    .colliers-table thead {
+      background-color: var(--bleuleg);
+      border-collapse: collapse;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+    }
+  /*********Tableau profil***********/
+
+/*********Tableaux***********/
+
+/*******************PopOver***********************/
+
+.popover__content {
+  display: none;
+  visibility: hidden;
+  position: absolute;
+  transform: translate(-150px, -10px);
+  background-color: #bfbfbf;
+  padding: 10px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 26%);
+  width: auto;
+  overflow: auto;
+}
+
+/*
+.popover__content:before {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  left: 0;
+  top: -8px;
+  border-style: solid;
+  border-width: 0 10px 10px 10px;
+  border-color: transparent transparent #bfbfbf transparent;
+  transition-duration: 0.3s;
+  transition-property: transform;
+}*/
+.popover__wrapper:hover .popover__content {
+  z-index: 10;
+  display: block;
+  visibility: visible;
+    transform: translate(-50%, -20px);
+  transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+}
+.popover__message {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+/********************************************/
+
+/***********Telephone*********************************/
+@media (min-width: 800px){
+  .listes {
+    justify-content: space-around;
+  }
+  .liste-animaux, .liste-colliers {
+    display: block;
+  }
+
+  .choix {
+    display: none;
+  }
+}
