@@ -22,6 +22,11 @@ router.get('/flash', function(req, res){
   res.redirect('/');
 });
 
+router.get("/test", function(req, res){
+  console.log("profil page charged");
+  res.render("test");
+});
+
 router.get("/profil", function(req, res){
   console.log("profil page charged");
   res.render("profil");

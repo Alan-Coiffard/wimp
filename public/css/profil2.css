@@ -38,9 +38,7 @@
   margin-top: 10px;
 }
 
-u {
-  font-weight: bold;
-}
+
 
 /*************Choix**********************/
 
@@ -75,7 +73,6 @@ u {
 /*************Liste******************/
 .listes {
   height: 65%;
-  display: flex;
   justify-content: center;
 }
 
@@ -83,49 +80,78 @@ u {
   display: none;
 }
 
+.liste-animaux {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.liste-animaux-n, .liste-colliers-n {
+  display: none;
+}
+
+.liste-colliers-v, .liste-animaux-v {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /*********Tableaux***********/
 
   /*********Tableau animaux***********/
-    .animaux-table {
-      border: 3px solid var(--bleuleg);
-      font-family: verdana;
-      font-size: 12px;
-    }
+  .wrapper, .wrapper2 {
+    border: 1px solid var(--bleuleg);
+    text-align: center;
+  }
 
-    .animaux-tr {
-      background-color:var(--bleuleg);
-      height:20px;
-    }
+  .wrapper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    /*grid-auto-rows: 100px;*/
+  }
+  .wrapper2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /*grid-auto-rows: 100px;*/
+  }
+  .wrapper > p, .wrapper > div > p,.wrapper2 > p, .wrapper2 > div > p {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+  .wrapper > div > p, .wrapper2 > div > p  {
+      border-bottom: 1px solid grey;
+  }
 
-    .animaux-tr th, .animaux-tab-tab tr {
-      width: 120px;
-    }
-
-    .animaux-div {
-      height:100px;
-      overflow:auto;
-    }
-
-    .animaux-tab-tab {
-      color:var(--bleuleg);
-      font-family:verdana;
-      font-size:12px;
-      text-align:center;
-          height: 100%;
-    }
-
-    .animaux-tab-tab td {
-      width:120px;
-    }
+  .wrapper > div,  .wrapper2 > div {
+    display: contents;
+  }
+  .wrapper-entete {
+    margin-right: 0;
+    background-color: var(--bleuleg);
+    color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .wrapper-body{
+    max-height: 100px;
+    overflow: auto;
+  }
+  p {
+      margin: 0;
+      padding: 0;
+      height: fit-content;
+  }
 
   /*********Tableau colliers***********/
     .colliers-table {
       border: solid 1px grey;
+      display: flex;
       font-family: verdana;
       font-size: 12px;
       border-collapse: collapse;
       display: grid;
       border: 0;
+      justify-content: center;
     }
 
     .colliers-capt {
@@ -208,13 +234,30 @@ u {
 /***********Telephone*********************************/
 @media (min-width: 800px){
   .listes {
+    display: flex;
     justify-content: space-around;
+    /* margin: auto; */
+    margin-left: 10%;
+    margin-right: 10%;
   }
-  .liste-animaux, .liste-colliers {
-    display: block;
+
+  .liste-animaux-v, .liste-animaux, .liste-animaux-n {
+    padding-right: 10vw;
   }
 
   .choix {
     display: none;
+  }
+
+  .liste-colliers-v, .liste-colliers-n, .liste-animaux-v,.liste-animaux-n, .liste-animaux, .liste-colliers {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .liste-colliers-v, .liste-colliers-n, .liste-colliers {
+    width: 55%;
+  }
+  .liste-animaux-v,.liste-animaux-n, .liste-animaux {
+    width: 90%;
   }
 }

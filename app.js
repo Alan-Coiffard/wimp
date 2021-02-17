@@ -40,5 +40,7 @@ app.use("/", require("./routes/web"));
 app.use("/api", require("./routes/api"));
 
 app.listen(app.get('port'), function(){
+  var os = require('os');
+  console.log(os.platform());
   console.log("Server started");
 });

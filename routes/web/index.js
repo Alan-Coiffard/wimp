@@ -19,4 +19,6 @@ router.use("/connexion", require("./home"));
 
 router.use("/flash", require("./home"));
 
+router.use("/test", require("./home"));
+
 module.exports = router;
