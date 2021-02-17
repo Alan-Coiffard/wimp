@@ -224,19 +224,26 @@ li {
 element.style {
 }
 .map-date {
-    border: 3px var(--gris);
-    background-color: white;
-    height: 5%;
-    /* display: flex; */
-    /* text-align: center; */
-    /* justify-content: center; */
-    /* line-height: 25; */
-    margin-bottom: 5px;
-    width: 150px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+  border: 3px var(--gris);
+  background-color: white;
+  height: 5%;
+  /* display: flex; */
+  /* text-align: center; */
+  /* justify-content: center; */
+  /* line-height: 25; */
+  /* margin-bottom: 5px; */
+  width: 50%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
-
+.map-date input {
+  background-color: var(--grisleg);
+  /* padding: 5px; */
+  border-top-left-radius: 5px;
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 
 @media (max-width: 740px){
   .options, .flex-item-30 {
@@ -409,6 +416,42 @@ element.style {
   margin-right: auto;
 }
 
+.btn-modifier {
+  /* border-radius: 20px; */
+  /* width: 15vw; */
+  text-align: center;
+  min-width: 50px;
+  max-width: 50px;
+  /* margin: 5vw; */
+  /* text-align: center; */
+  /* justify-content: center; */
+  /* display: inherit; */
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 0 0;
+  background-color: white;
+}
+
+.btn-supprimer {
+  /* border-radius: 20px; */
+  /* width: 15vw; */
+  text-align: center;
+  min-width: 50px;
+  max-width: 50px;
+  /* margin: 5vw; */
+  /* text-align: center; */
+  /* justify-content: center; */
+  /* display: inherit; */
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 0 0;
+  background-color: white;
+}
+
 .inscription {
   display: flex;
   flex-direction: column;
@@ -470,6 +513,15 @@ input {
 }
 input:focus {
   outline: none;
+}
+.notinput {
+  box-shadow: 0 0 0 0;
+  border-radius: 0;
+  border: none;
+  padding: 0;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
 }
 
 fieldset div {
