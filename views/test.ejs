@@ -3,78 +3,11 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
 <title>test</title>
- <style type="text/css" media="screen"><!--
-html,body {
-  margin: 0px;
-  padding: 0px;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
 
-/*************************************************/
-.wrapper {
-  border: 2px solid #f76707;
-  border-radius: 5px;
-  background-color: #fff4e6;
-  text-align: center;
-}
-
-.wrapper {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  /*grid-auto-rows: 100px;*/
-}
-.wrapper > p, .wrapper > div > p {
-    border: 2px solid #ffa94d;
-    border-radius: 5px;
-    background-color: #ffd8a8;
-    padding: 1em;
-    color: #d9480f;
-}
-.wrapper > div {
-  display: contents;
-}
-.wrapper-entete {
-  margin-right: 0;
-}
-.wrapper-body{
-  max-height: 200px;
-  overflow: auto;
-}
-p {
-    margin: 0;
-    padding: 0;
-    height: fit-content;
-}
-</style>
 </head>
 <body>
-  <div class="tab-overflow">
-    <div class="wrapper wrapper-entete">
-      <p>Un</p>
-      <p>Deux</p>
-      <p>Trois</p>
-      <p>Quatre</p>
-    </div>
-    <div class="wrapper wrapper-body">
-      <div>
-        <p>Un</p>
-        <p>Deux</p>
-        <p>Trois</p>
-        <p>Quatre</p>
-      </div>
-    </div>
-    <script type="text/javascript">
-      var elem = document.getElementsByClassName("wrapper-body");
-      var grandir = document.getElementsByClassName("wrapper-entete");
-      console.log(grandir);
-      if (elem[0].scrollHeight > elem[0].clientHeight) {
-        console.log("plus grand");
-        grandir[0].style.marginRight = "20px";
-      }
-    </script>
-  </div>
+  
+
 
 </body>
 </html>
