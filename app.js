@@ -12,6 +12,8 @@ var params = require("./params/params");
 
 var setUpPassport = require("./setUpPassport");
 
+/***********Test MySQL*************/
+
 const app = express();
 
 mongoose.connect(params.DATABASECONNECTION, {useUnifiedTopology:true, useNewUrlParser:true, useCreateIndex:true});
