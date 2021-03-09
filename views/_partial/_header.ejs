@@ -11,3 +11,8 @@
 
   <body>
       <%- include ("_bandeau.ejs"); %>
+      <% if (locals.error) { %>
+      <div class="message message-erreur">
+        <%= error %>
+      </div>
+      <% } %>

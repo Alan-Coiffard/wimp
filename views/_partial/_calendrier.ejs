@@ -1,4 +1,4 @@
-<input class="notinput" type="text" name="datetimes" value="01/01/2018 - 01/15/2018" />
+<input class="notinput" id="date" type="text" name="datetimes" />
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <script>
-var formatDate = "DD-MM-YYYY HH:mm";
+var formatDate = "DD/MM/YYYY HH:mm";
 $(function() {
   $('input[name="datetimes"]').daterangepicker({
     timePicker: true,
@@ -18,8 +18,8 @@ $(function() {
   }, function(start, end, label) {
     var date = document.getElementById('date');
     console.log(date);
-    console.log("A new date selection was made: " + start.format(formatDate) + ' to ' + end.format(formatDate));
-    //document.getElementById("date").innerHTML = "Date choisie : "+ start.format(formatDate) +  " - "  + end.format(formatDate);
+    document.getElementById("date").innerHTML = "Du "+ start.format(formatDate) +  " au "  + end.format(formatDate);
+    console.log(date);
   });
 });
 </script>

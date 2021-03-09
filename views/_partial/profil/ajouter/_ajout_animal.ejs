@@ -1,17 +1,21 @@
-<h2><u>Profil</u></h2>
-<form action="index.html" method="post" enctype="multipart/form-data">
-  <p><b>Nom de l'animal :</b> <input type="text" name="nom_animal" value=""></p>
-  <p><b>Type :</b> <input type="text" name="type" value=""></p>
-  <p><b>Date de naissance :</b> <input type="date" name="email" value=""></p>
-  <input id="check" type="checkbox" checked onChange="verif();" /><label>Distance maximal</label>
+<h2><u>Ajouter un animal</u></h2>
+<form action="index.html" method="post" enctype="multipart/form-data" class="form-ajout">
+  <label><b>Nom de l'animal :</b> <input type="text" name="nom_animal" value=""></label>
+  <label><b>Type :</b> <input type="text" name="type" value=""></label>
+
+  <label><b>Date de naissance :</b><input type="date" name="email" value=""></label>
+
+  <label><input id="check" type="checkbox" checked onChange="verif();" />Distance maximal</label>
   <div id="range" class="">
     <input type="range" class="notinput" min="0" max="100" value="0" oninput="document.getElementById('AfficheRange').textContent=value" />
     <span id="AfficheRange">0</span>m
   </div>
-  <p><b>Collier à utiliser :</b> <input type="text" name="collier" value=""></p>
-  <button onclick="annuler();" type="button" class="btn btn-annuler" name="button">Annuler</button>
+  <label><b>Collier à utiliser :</b> <input type="text" name="collier" value=""></label>
+
   <button type="button" class="btn btn-envoyer" name="button">Ajouter</button>
 </form>
+<button onclick="annuler_modal_1();" type="button" class="btn btn-annuler" name="button">Annuler</button>
+
 <script type="text/javascript">
 function verif ()
 {
@@ -25,4 +29,10 @@ function verif ()
         document.getElementById('range').className = 'off';
     }
 }
+function annuler_modal_1(){
+  var addAnimal = document.getElementById('addAnimal');
+  console.log(addAnimal);
+  addAnimal.style.display = "none";
+}
+
 </script>
