@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bienvenue dans mon site</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+      <%- include ("_bandeau.ejs"); %>
+
+        <% if (typeof errors != 'undefined') { %>
+          <div class="message-block">
+            <div class="message message-erreur">
+              <% errors.forEach(error => { %>
+                <li><%= error.message %></li>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+        <% if (typeof success != 'undefined') { %>
+          <div class="message-block">
+            <div class="message message-success">
+              <% success.forEach(success => { %>
+                <li><%= success.message %></li>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
