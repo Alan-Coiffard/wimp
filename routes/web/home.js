@@ -32,16 +32,6 @@ router.get("/test", function(req, res){
   res.render("test");
 });
 
-router.get("/profil", function(req, res){
-  console.log("profil page charged");
-  res.render("profil");
-});
-
-router.get("/autreprofil", function(req, res){
-  console.log("profil page charged");
-  res.render("autreProfil");
-});
-
 router.get("/connexion", function(req, res){
   console.log("connexion page charged");
   res.render("home/connexion");
@@ -56,6 +46,13 @@ router.get("/deconnexion", function(req, res){
   req.session.destroy(function(err) {
     res.redirect('/');
   })
+});
+
+router.get('/find', User.findAnimal);
+
+router.get("/profil", function(req, res){
+  console.log("profil page charged");
+  res.render("profil");
 });
 
 router.post('/inscription', User.signup);

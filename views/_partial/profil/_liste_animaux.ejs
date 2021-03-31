@@ -4,22 +4,17 @@
     <p>Nom</p>
     <p>Type</p>
     <p>Age</p>
+    <p>Distance</p>
     <p>Collier</p>
   </div>
-  <%
-    console.log(user.id_client);
-
-    findAnimal(user.id_client)
-      .then(foundAnimaux => {
-        console.log(foundAnimaux);
-      })
-  %>
   <div class="wrapper wrapper-body">
+    <% for (const animal of locals.user.animaux) { %>
     <div>
-      <p>Nom</p>
-      <p>Type</p>
-      <p>Age</p>
-      <p>Collier</p>
+      <p><%= animal.nom %></p>
+      <p><%= animal.type_animal %></p>
+      <p><%= animal.naissance_animal %></p>
+      <p><%= animal.distance %></p>
+      <p><%= animal.id_collier %></p>
       <button type="button" class="btn btn-modifier" name="button">
         <img src="https://img.icons8.com/metro/15/000000/edit.png"/>
       </button>
@@ -27,8 +22,10 @@
         <img src="https://img.icons8.com/android/15/000000/trash.png"/>
       </button>
     </div>
+    <% } %>
   </div>
 </div>
+<% console.log("User ", locals.user); %>
 <button type="button" onclick="ajouterAnimal();" class="btn btn-envoyer" name="button">Ajouter</button>
 <script type="text/javascript">
   function ajouterAnimal(){

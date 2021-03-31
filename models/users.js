@@ -107,35 +107,6 @@ const createToken = () => {
 }
 
 // app/models/user.js
-const signin = (request, response) => {
-  const userReq = request.body
-  let user
-
-  findUser(userReq)
-    .then(foundUser => {
-      user = foundUser
-      return checkPassword(userReq.password, foundUser)
-    })
-    //.then((res) => createToken())
-    //.then(token => updateUserToken(token, user))
-    .then(() => {
-      delete user.password
-      // console.log(user.nom);
-      // console.log("Dans user : ", user);
-      //response.body.user = user;
-      request.session.id_client = user.id_client;
-      request.session.nom = user.nom;
-      request.session.prenom = user.prenom;
-      request.session.email = user.email;
-
-
-      response.redirect('/home');
-      //response.status(200).json(user);
-    })
-    .catch((err) => console.error(err))
-}
-
-// app/models/user.js
 const findUser = (userReq) => {
   return database.raw("SELECT * FROM clients WHERE email = ?", [userReq.email])
     .then((data) => data.rows[0])
@@ -211,7 +182,7 @@ const modifyProfil = (request, response) => {
   }
 
   if (errors.length > 0) {
-    response.render("./autreProfil", { errors, nom, prenom, email });
+    response.render("./profil", { errors, nom, prenom, email });
   } else {
     // modifyUser(user, userId)
     // .then(user => {
@@ -221,7 +192,7 @@ const modifyProfil = (request, response) => {
     //   request.session.prenom = user.prenom;
     //   request.session.email = user.email;
     //
-    //   response.redirect('./autreProfil');
+    //   response.redirect('./profil');
     // })
     // .catch((err) => console.error(err))
     findUser(user)
@@ -238,12 +209,12 @@ const modifyProfil = (request, response) => {
             request.session.prenom = user.prenom;
             request.session.email = user.email;
 
-            response.redirect('./autreProfil');
+            response.redirect('./profil');
           })
           .catch((err) => console.error(err))
         } else {
           errors.push({ message: "Email already registered" });
-          response.render("./autreProfil", { errors, nom, prenom, email });
+          response.render("./profil", { errors, nom, prenom, email });
         }
         return foundUser
       })
@@ -251,9 +222,72 @@ const modifyProfil = (request, response) => {
   }
 }
 
-const findAnimal = (id_client) => {
-  return database.raw("SELECT * FROM animaux WHERE id_utilisateur = ?", [id_client])
-    .then((data) => data.rows[0])
+// app/models/user.js
+const signin = (request, response) => {
+  const userReq = request.body
+  let user
+
+  findUser(userReq)
+    .then(foundUser => {
+      user = foundUser
+      return checkPassword(userReq.password, foundUser)
+    })
+    .then(() => {
+      delete user.password
+      request.session.id_client = user.id_client;
+      request.session.nom = user.nom;
+      request.session.prenom = user.prenom;
+      request.session.email = user.email;
+
+      response.redirect('/home');
+      //response.status(200).json(user);
+    })
+    .catch((err) => console.error(err))
+}
+
+// app/models/user.js
+const findAnimal = (request, response) => {
+  console.log(request.session.id_client);
+  _findAnimal(request.session.id_client)
+    .then(foundAnimals => {
+      console.log(foundAnimals.rows);
+      animaux = foundAnimals.rows
+      return animaux
+    })
+    .then(() => {
+      console.log("Animaux: ", animaux);
+      request.session.animaux = animaux;
+      //response.status(200).json(user);
+    })
+  _findCollier(request.session.id_client)
+    .then(foundCollier => {
+      console.log(foundCollier.rows);
+      colliers = foundCollier.rows
+      return colliers
+    })
+    .then(() => {
+      console.log("Colliers: ", colliers);
+      request.session.colliers = colliers;
+      response.redirect('/profil');
+      //response.status(200).json(user);
+    })
+}
+
+const _findAnimal = (id_client) => {
+
+  let request = database.raw("SELECT * FROM animaux WHERE id_utilisateur = ?", [id_client], (err, res) => {
+    //console.log(err ? err.stack : "test ",res.rows[0]) // Hello World!
+    database.end()
+  })
+  return request
+}
+
+const _findCollier = (id_client) => {
+  let request = database.raw("SELECT * FROM colliers WHERE id_client = ?", [id_client], (err, res) => {
+    //console.log(err ? err.stack : "test ",res.rows[0]) // Hello World!
+    database.end()
+  })
+  return request
 }
 
 // don't forget to export!
