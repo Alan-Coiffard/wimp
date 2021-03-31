@@ -1,188 +1,116 @@
 <%- include ("_partial/_header.ejs"); %>
-<link rel="stylesheet" href="css/profil.css">
+<link rel="stylesheet" href="css/profil2.css">
 
 <div class="flex">
-  <div class="nonslider-insc">
-    <div class="flex-items flex-item-50 profil-block">
-      <div class="profil-infos">
-        <%- include ("_partial/profil/_tab_profilG.ejs"); %>
-      </div>
-      <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
+  <div class="flex-items flex-item-90 profil-block">
+    <a href="/home" class="btn btn-profil-retour" type="button">Retour</a>
 
-      <div class="profil-colliers tableau">
-        <%- include ("_partial/profil/_liste_collier.ejs"); %>
-      </div>
-      <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
-
+    <div class="entete entete-normal">
+      <h2><u>Profil</u></h2>
+      <img src="images/profil.png" class="img-profil" alt="">
+      <p><b>Nom :</b>
+        <% if(user.nom) {%>
+          <%= user.nom %>
+        <%}; %>
+      </p>
+      <p><b>Prénom :</b>
+        <% if(user.prenom) {%>
+          <%= user.prenom %>
+        <%}; %>
+      </p>
+      <p><b>Email :</b>
+        <% if(user.email) {%>
+          <%= user.email %>
+        <%}; %>
+      </p>
+      <button type="button" class="btn btn-envoyer" onclick="modifier();" name="button">Modifier</button>
     </div>
-    <div class="flex-items flex-item-50 profil-block">
-      <div class="profil-animaux">
-        <%- include ("_partial/profil/_liste_animaux.ejs"); %>
+    <div class="entete entete-modifier">
+      <h2><u>Profil</u></h2>
+      <form action="/modifierProfil" method="post">
+        <img src="images/profil.png" class="img-profil" alt="">
+        <p><b>Nom :</b> <input type="text" name="nom" value="<%- user.nom %>"></p>
+        <p><b>Prénom :</b> <input type="text" name="prenom" value="<%- user.prenom %>"></p>
+        <p><b>E-Mail :</b> <input type="mail" name="email" value="<%- user.email %>"></p>
+        <button onclick="annuler();" type="button" class="btn btn-annuler" name="button">Annuler</button>
+        <input type="submit" class="btn btn-envoyer" value="Modifier" />
+      </form>
+    </div>
+
+    <div class="choix">
+      <button type="button" id="animaux" class="btn btn-choix btn-select" onclick="animaux();" name="button">Animaux</button>
+      <button type="button" id="colliers" class="btn btn-choix" onclick="colliers();" name="button">Colliers</button>
+    </div>
+
+    <div class="listes">
+      <div id="ani" class="liste-animaux">
+        <%- include("_partial/profil/_liste_animaux.ejs"); %>
       </div>
-      <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
+      <div id="col" class="liste-colliers">
+        <%- include("_partial/profil/_liste_collier.ejs"); %>
+      </div>
     </div>
   </div>
-  <!------------Slider du form-------------------->
-  <div class="slider-insc">
-    <div class="slideshow-container">
-      <!-- Full-width images with number and caption text -->
-      <div class="mySlides">
-        <div class="flex-items flex-item-50 profil-block">
-          <div class="profil-infos">
-            <%- include (recept); %>
-          </div>
-          <button type="button" class="btn btn-envoyer" onclick="changerLien();" value="_tab_profilP_modifier" name="button">Modifier</button>
-          <!-- <script type="text/javascript">
-            function changerLien() {
-              let data = '<%-recept%>';
-              console.log(data);
-              const lien = data.split('.');
-              console.log(lien[0]);
-              console.log(lien[1]);
-              recept = lien[0]+'_modifier.'+lien[1];
-              console.log(recept);
-            }
-          </script> -->
-        </div>
-      </div>
-      <div class="mySlides">
-        <div class="flex-items flex-item-50 profil-block tableau">
-          <div class="profil-colliers">
-            <%- include ("_partial/profil/_liste_collier.ejs"); %>
-          </div>
-          <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
-        </div>
-      </div>
-      <div class="mySlides">
-        <div class="flex-items flex-item-50 profil-block">
-          <div class="profil-animaux">
-            <%- include ("_partial/profil/_liste_animaux.ejs"); %>
-          </div>
-          <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
-        </div>
-      </div>
-
-      <script type="text/javascript">
-        var slideIndex = 1;
-        showSlides(slideIndex);
-
-        // Next/previous controls
-        function plusSlides(n) {
-          showSlides(slideIndex += n);
-        }
-
-        // Thumbnail image controls
-        function currentSlide(n) {
-          showSlides(slideIndex = n);
-        }
-
-        function showSlides(n) {
-          var i;
-          var slides = document.getElementsByClassName("mySlides");
-          var dots = document.getElementsByClassName("dot");
-          if (n > slides.length) {slideIndex = 1}
-          if (n < 1) {slideIndex = slides.length}
-          for (i = 0; i < slides.length; i++) {
-              slides[i].style.display = "none";
-          }
-          for (i = 0; i < dots.length; i++) {
-              dots[i].className = dots[i].className.replace(" active", "");
-          }
-          slides[slideIndex-1].style.display = "flex";
-        }
-      </script>
-      <!-- Next and previous buttons -->
-      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-      <a class="next" onclick="plusSlides(1)">&#10095;</a>
-    </div>
-    <br>
-  </div>
-  <!---------------------Fin du Slider-------------------------->
 </div>
-<div class="btn-block">
-  <a href="/home" class="btn btn-profil-retour">Retour</a>
+
+<div id="addAnimal" class="modal">
+  <div class="block block-centre1 text-centre">
+    <%- include ("_partial/profil/ajouter/_ajout_animal.ejs"); %>
+  </div>
+</div>
+<div id="addCollier" class="modal">
+  <div class="block block-centre1 text-centre">
+    <%- include ("_partial/profil/ajouter/_ajout_collier.ejs"); %>
+  </div>
 </div>
 
 <script type="text/javascript">
+  function modifier(){
+    var enteteN = document.getElementsByClassName("entete-normal");
+    var enteteM = document.getElementsByClassName("entete-modifier");
+    console.log(enteteN);
+    console.log(enteteM);
+    enteteN[0].style.display = "none";
+    enteteM[0].style.display = "block";
+  }
+  function annuler(){
+    var enteteN = document.getElementsByClassName("entete-normal");
+    var enteteM = document.getElementsByClassName("entete-modifier");
+    console.log(enteteN);
+    console.log(enteteM);
+    enteteN[0].style.display = "block";
+    enteteM[0].style.display = "none";
+  }
 
-    function longueurMailGrand() {
-      var parentDOM   = document.getElementById("grand");
-      console.log(parentDOM);
-      var mailG        = parentDOM.getElementsByClassName("popover__title")[0];
-      console.log(mailG);
-      var popG         = parentDOM.getElementsByClassName("popover__content")[0];
-      var voirG        = parentDOM.getElementsByClassName("popover__message")[0];
-
-      var monTexteG = mailG.innerText || mailG.textContent || mailG.innerHTML;
-
-      console.log(monTexteG);
-      console.log(monTexteG.length);
-      //document.getElementById('pop').style.display = 'none';
-      if (monTexteG.length < 20)
-      {
-        console.log("entre supprime");
-        popG.style.display = 'none';
-      }
-      else
-      {
-        console.log("entre ajouter");
-        mailG.textContent = "voir";
-        popG.style.display = 'flex';
-        voirG.innerHTML = monTexteG;
-      }
-    }
-
-    function longueurMail() {
-      var mailP        = document.getElementById("mailP");
-      var mailG        = document.getElementById("mailG");
-
-      var popP         = document.getElementById("popP");
-      var popG         = document.getElementById("popG");
-
-      var voirP        = document.getElementById("voirP");
-      var voirG        = document.getElementById("voirG");
-
-      var monTexteP = mailP.innerText || mailP.textContent || mailP.innerHTML;
-      var monTexteG = mailG.innerText || mailG.textContent || mailG.innerHTML;
-
-      console.log(monTexteP);
-      console.log(monTexteP.length);
-      console.log(monTexteG);
-      console.log(monTexteG.length);
-      //document.getElementById('pop').style.display = 'none';
-      if (monTexteP.length < 20)
-      {
-        console.log("entre supprime Petit");
-        popP.style.display = 'none';
-      }
-      else
-      {
-        console.log("entre ajouter Petit");
-        mailP.textContent = "voir";
-        popP.style.display = 'flex';
-        voirP.innerHTML = monTexteP;
-      }
-
-      if (monTexteG.length < 20 || monTexteP.length < 20)
-      {
-        console.log("entre supprime Grrand");
-        popG.style.display = 'none';
-        console.log("entre supprime Petit");
-        popP.style.display = 'none';
-      }
-      else
-      {
-        console.log("entre ajouter Grand");
-        mailG.textContent = "voir";
-        popG.style.display = 'flex';
-        voirG.innerHTML = monTexteG;
-        console.log("entre ajouter Petit");
-        mailP.textContent = "voir";
-        popP.style.display = 'flex';
-        voirP.innerHTML = monTexteP;
-      }
-    }
+  function colliers(){
+    var btn_animaux = document.getElementById("animaux");
+    var btn_colliers = document.getElementById("colliers");
+    var animaux = document.getElementById("ani");
+    var colliers = document.getElementById("col");
+    animaux.className = "liste-animaux-n";
+    colliers.className  = "liste-colliers-v";
+    btn_animaux.style.backgroundColor = "var(--grisleg)";
+    btn_colliers.style.backgroundColor = "var(--marronleg)";
+  }
+  function animaux(){
+    var btn_animaux = document.getElementById("animaux");
+    var btn_colliers = document.getElementById("colliers");
+    var animaux = document.getElementById("ani");
+    var colliers = document.getElementById("col");
+    colliers.className  = "liste-colliers-n";
+    animaux.className  = "liste-animaux-v";
+    btn_colliers.style.backgroundColor = "var(--grisleg)";
+    btn_animaux.style.backgroundColor = "var(--marronleg)";
+  }
+</script>
+<script type="text/javascript">
+  var elem = document.getElementsByClassName("wrapper-body");
+  var grandir = document.getElementsByClassName("wrapper-entete");
+  console.log(grandir);
+  if (elem[0].scrollHeight > elem[0].clientHeight) {
+    console.log("plus grand");
+    grandir[0].style.paddingRight = "20px";
+  }
 
 </script>
-
 <%- include ("_partial/_footer.ejs"); %>
