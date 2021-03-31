@@ -1,4 +1,5 @@
 <h2>Liste des animaux</h2>
+<% if(locals.user.colliers[0]){ %>
 <div class="tab-overflow">
   <div class="wrapper wrapper-entete">
     <p>Nom</p>
@@ -12,9 +13,10 @@
     <div>
       <p><%= animal.nom %></p>
       <p><%= animal.type_animal %></p>
-      <p><%= animal.naissance_animal %></p>
+      <% console.log(animal.age_animal); %>
+      <p><%= animal.age_animal.years %> an<% if(animal.age_animal.years > 1){ %>s<%}%> <%= animal.age_animal.months %> moi<% if(animal.age_animal.months > 1){ %>s<%}%></p>
       <p><%= animal.distance %></p>
-      <p><%= animal.id_collier %></p>
+      <p><%= animal.numero_collier %></p>
       <button type="button" class="btn btn-modifier" name="button">
         <img src="https://img.icons8.com/metro/15/000000/edit.png"/>
       </button>
@@ -25,7 +27,11 @@
     <% } %>
   </div>
 </div>
-<% console.log("User ", locals.user); %>
+<%} else {%>
+<div>
+  <p>Vous n'avez pas d'animaux</p>
+</div>
+<%}%>
 <button type="button" onclick="ajouterAnimal();" class="btn btn-envoyer" name="button">Ajouter</button>
 <script type="text/javascript">
   function ajouterAnimal(){

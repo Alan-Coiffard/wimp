@@ -5,8 +5,8 @@ var router = express.Router();
 // TODO: add in error and info
 
 router.use(function(req, res, next){
-  //console.log('Dans index : ', req.session);
-  console.log('Dans index animaux : ', req.session.animaux);
+  console.log('Dans index : ', req.session.types);
+  //console.log('Dans index animaux : ', req.session.animaux);
   res.locals.user = req.session;
   next();
 });
@@ -22,6 +22,8 @@ router.use("/connexion", require("./home"));
 router.use("/deconnexion", require("./home"));
 
 router.use("/find", require("./home"));
+
+router.use("/findType", require("./home"));
 
 router.use("/profil", require("./home"));
 

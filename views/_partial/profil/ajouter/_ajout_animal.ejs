@@ -1,7 +1,15 @@
 <h2><u>Ajouter un animal</u></h2>
 <form action="index.html" method="post" enctype="multipart/form-data" class="form-ajout">
   <label><b>Nom de l'animal :</b> <input type="text" name="nom_animal" value=""></label>
-  <label><b>Type :</b> <input type="text" name="type" value=""></label>
+  <label><b>Type :</b>
+    <select id="pet-select">
+      <option value="">--Choisir un type d'animal--</option>
+      <%= console.log(locals.user.types);%>
+      <% for (const type of locals.user.types) { %>
+          <option value="<%= type.type %>"><%= type.type %></option>
+      <%}%>
+  </select>
+  </label>
 
   <label><b>Date de naissance :</b><input type="date" name="email" value=""></label>
 

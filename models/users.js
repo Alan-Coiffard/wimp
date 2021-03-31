@@ -248,34 +248,41 @@ const signin = (request, response) => {
 // app/models/user.js
 const findAnimal = (request, response) => {
   console.log(request.session.id_client);
-  _findAnimal(request.session.id_client)
-    .then(foundAnimals => {
-      console.log(foundAnimals.rows);
-      animaux = foundAnimals.rows
-      return animaux
-    })
-    .then(() => {
-      console.log("Animaux: ", animaux);
-      request.session.animaux = animaux;
-      //response.status(200).json(user);
-    })
-  _findCollier(request.session.id_client)
-    .then(foundCollier => {
-      console.log(foundCollier.rows);
-      colliers = foundCollier.rows
-      return colliers
-    })
-    .then(() => {
-      console.log("Colliers: ", colliers);
-      request.session.colliers = colliers;
-      response.redirect('/profil');
-      //response.status(200).json(user);
-    })
+  let errors = []
+  if (!request.session.id_client) {
+    errors.push({ message: "Connectez-vous" });
+  }
+  if (errors.length > 0) {
+    response.render("home/connexion", { errors });
+  } else {
+    _findAnimal(request.session.id_client)
+      .then(foundAnimals => {
+        //console.log("This -----",foundAnimals.rows);
+        animaux = foundAnimals.rows
+        return animaux
+      })
+      .then(() => {
+        request.session.animaux = animaux;
+        //response.status(200).json(user);
+      })
+
+    _findCollier(request.session.id_client)
+      .then(foundCollier => {
+        colliers = foundCollier.rows
+        return colliers
+      })
+      .then(() => {
+        //console.log("Colliers: ", colliers);
+        request.session.colliers = colliers;
+        response.redirect('/profil');
+        //response.status(200).json(user);
+      })
+  }
 }
 
 const _findAnimal = (id_client) => {
 
-  let request = database.raw("SELECT * FROM animaux WHERE id_utilisateur = ?", [id_client], (err, res) => {
+  let request = database.raw("SELECT colliers.id_collier, numero_collier, animaux.id_animal, nom, naissance_animal, type_animal, distance, animaux.id_collier, id_utilisateur, AGE(naissance_animal) AS age_animal FROM animaux, colliers WHERE id_utilisateur = ? AND animaux.id_collier = colliers.id_collier", [id_client], (err, res) => {
     //console.log(err ? err.stack : "test ",res.rows[0]) // Hello World!
     database.end()
   })
@@ -290,10 +297,109 @@ const _findCollier = (id_client) => {
   return request
 }
 
+const findType = (request, response) => {
+
+  console.log(request.session.id_client);
+  let errors = []
+  if (!request.session.id_client) {
+    errors.push({ message: "Connectez-vous" });
+  }
+  if (errors.length > 0) {
+    response.render("home/connexion", { errors });
+  }else {
+    _findType(request.session.id_client)
+      .then(foundType => {
+        types = foundType.rows
+        return types
+      })
+      .then(() => {
+        //console.log("Colliers: ", colliers);
+        request.session.types = types;
+        response.render('home/home');
+        //response.status(200).json(user);
+      })
+  }
+}
+
+const _findType = (id_client)  => {
+  console.log(id_client);
+  let request = database.raw("SELECT * FROM types")
+  return request
+}
+
+
+/**************************Animal********************************/
+
+//ajouter un animal
+
+const addAnimal = (request, response) => {
+  const animal = request.body
+  let { nom_animal, type, password, password2 } = request.body;
+
+  let errors = [];
+
+  console.log({
+    email,
+    nom,
+    prenom,
+    password,
+    password2
+  });
+
+  if (!nom || !prenom || !email || !password || !password2) {
+    errors.push({ message: "Please enter all fields" });
+  }
+
+  if (password.length < 6) {
+    errors.push({ message: "Password must be a least 6 characters long" });
+  }
+
+  if (password !== password2) {
+    errors.push({ message: "Passwords do not match" });
+  }
+
+  if (errors.length > 0) {
+    response.render("home/inscription", { errors, nom, prenom, email, password, password2 });
+  } else {
+    findUser(user)
+      .then(foundUser => {
+        console.log("foundUser", foundUser);
+        if (!foundUser) {
+          hashPassword(user.password)
+            .then((hashedPassword) => {
+              delete user.password
+              user.password = hashedPassword
+            })
+            //.then(() => createToken())
+            //.then(token => user.token = token)
+            .then(() => createUser(user))
+            .then(user => {
+              delete user.password
+              // response.status(201).json({ user })
+              request.session.id_client = user.id_client;
+              request.session.nom = user.nom;
+              request.session.prenom = user.prenom;
+              request.session.email = user.email;
+
+              response.redirect('/home');
+            })
+            .catch((err) => console.error(err))
+        } else {
+          errors.push({ message: "Email already registered" });
+          response.render("home/inscription", { errors, nom, prenom, email, password, password2 });
+        }
+        return foundUser
+      })
+      .catch((err) => console.error(err))
+  }
+}
+
+
 // don't forget to export!
 module.exports = {
   signup,
   signin,
   modifyProfil,
-  findAnimal
+  findAnimal,
+  findType
 }

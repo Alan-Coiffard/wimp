@@ -13,12 +13,7 @@ router.get("/", function(req, res){
   res.render("home/index");
 });
 
-router.get("/home", function(req, res){
-  console.log("Home page charged");
-  res.render("home/home");
-  //console.log(req.session);
-  req.flash('info', 'Welcome');
-});
+router.get('/home', User.findType);
 
 router.get('/flash', function(req, res){
   // Set a flash message by passing the key, followed by the value, to req.flash().
@@ -43,9 +38,17 @@ router.get("/inscription", function(req, res){
 });
 
 router.get("/deconnexion", function(req, res){
-  req.session.destroy(function(err) {
-    res.redirect('/');
-  })
+  let errors = []
+  if (!req.session.id_client) {
+    errors.push({ message: "Connectez-vous" });
+  }
+  if (errors.length > 0) {
+    res.render("home/connexion", { errors });
+  } else {
+    req.session.destroy(function(err) {
+      res.redirect('/');
+    })
+  }
 });
 
 router.get('/find', User.findAnimal);
