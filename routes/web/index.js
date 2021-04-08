@@ -5,8 +5,8 @@ var router = express.Router();
 // TODO: add in error and info
 
 router.use(function(req, res, next){
-  console.log('Dans index : ', req.session.types);
-  //console.log('Dans index animaux : ', req.session.animaux);
+  //console.log('Dans index : ', req.session.colliers);
+  console.log('Dans index animaux : ', req.session);
   res.locals.user = req.session;
   next();
 });
@@ -28,6 +28,14 @@ router.use("/findType", require("./home"));
 router.use("/profil", require("./home"));
 
 router.use("/modifierProfil", require("./home"));
+
+router.use("/ajoutAnimal", require("./home"));
+
+router.use("/supprimerAnimal", require("./home"));
+
+router.use("/ajoutCollier", require("./home"));
+
+router.use("/supprimerCollier", require("./home"));
 
 router.use("/flash", require("./home"));
 

@@ -4,6 +4,7 @@ var express = require("express");
 var passport = require('passport');
 const bcrypt = require('bcrypt');
 
+var JSAlert = require("js-alert");
 
 var router = express.Router();
 
@@ -61,6 +62,21 @@ router.get("/profil", function(req, res){
 router.post('/inscription', User.signup);
 router.post('/connexion', User.signin);
 router.post('/modifierProfil', User.modifyProfil);
+
+router.post('/ajoutAnimal', User.ajoutAnimal);
+router.get('/supprimerAnimal', User.supprimerAnimal);
+
+//router.post('/supprimerAnimal', User.supprimerAnimal);
+
+// router.post('/supprimerAnimal', function(req, res){
+//   //res.render('_partial/profil/supprimer/_supprimer_Animal');
+//   JSAlert.alert("This is an alert.");
+//
+// });
+//showAlert(error.message);
+
+router.post('/ajoutCollier', User.ajoutCollier);
+router.post('/supprimerCollier', User.supprimerCollier);
 
 
 module.exports = router;

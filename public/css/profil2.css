@@ -269,7 +269,7 @@ label {
   .off{display: none;}
 
 /***********Telephone*********************************/
-@media (min-width: 800px){
+@media (min-width: 1500px){
   .listes {
     display: flex;
     justify-content: space-around;
@@ -296,5 +296,40 @@ label {
   }
   .liste-animaux-v,.liste-animaux-n, .liste-animaux {
     width: 90%;
+  }
+}
+
+@media (min-height: 1000px){
+
+  @media (min-width: 910px){
+    .listes {
+      display: flex;
+      justify-content: space-around;
+      /* margin: auto; */
+      margin-left: 10%;
+      margin-right: 10%;
+      flex-direction: column;
+    }
+
+    .liste-animaux-v, .liste-animaux, .liste-animaux-n {
+      padding-right: 0;
+    }
+
+    .choix {
+      display: none;
+    }
+
+    .liste-colliers-v, .liste-colliers-n, .liste-animaux-v,.liste-animaux-n, .liste-animaux, .liste-colliers {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .liste-colliers-v, .liste-colliers-n, .liste-colliers {
+      width: 55%;
+      padding-bottom: 15px;
+    }
+    .liste-animaux-v,.liste-animaux-n, .liste-animaux {
+      width: 90%;
+    }
   }
 }

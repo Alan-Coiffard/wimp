@@ -1,26 +1,34 @@
 <h2><u>Ajouter un animal</u></h2>
-<form action="index.html" method="post" enctype="multipart/form-data" class="form-ajout">
+<form action="/ajoutAnimal" method="post" class="form-ajout">
   <label><b>Nom de l'animal :</b> <input type="text" name="nom_animal" value=""></label>
   <label><b>Type :</b>
-    <select id="pet-select">
+    <select name="type" id="pet-select">
       <option value="">--Choisir un type d'animal--</option>
-      <%= console.log(locals.user.types);%>
       <% for (const type of locals.user.types) { %>
-          <option value="<%= type.type %>"><%= type.type %></option>
+          <option name="type" value="<%= type.type %>"><%= type.type %></option>
       <%}%>
-  </select>
+    </select>
   </label>
 
-  <label><b>Date de naissance :</b><input type="date" name="email" value=""></label>
+  <label><b>Date de naissance :</b><input type="date" name="naissance_animal" value=""></label>
 
   <label><input id="check" type="checkbox" checked onChange="verif();" />Distance maximal</label>
   <div id="range" class="">
-    <input type="range" class="notinput" min="0" max="100" value="0" oninput="document.getElementById('AfficheRange').textContent=value" />
+    <input type="range" name="distance" class="notinput" min="0" max="100" value="0" oninput="document.getElementById('AfficheRange').textContent=value" />
     <span id="AfficheRange">0</span>m
   </div>
-  <label><b>Collier à utiliser :</b> <input type="text" name="collier" value=""></label>
+  <label><b>Collier à utiliser :</b>
+    <select name="id_collier" id="pet-select">
+      <option value="">--Choisir un type d'animal--</option>
+      <% for (const collier of locals.user.colliers) { %>
+        <% if(collier.id_animal_collier == null){ %>
+          <option name="type" value="<%= collier.id_collier %>"><%= collier.numero_collier %></option>
+        <%}%>
+      <%}%>
+    </select>
+  </label>
 
-  <button type="button" class="btn btn-envoyer" name="button">Ajouter</button>
+  <input type="submit" class="btn btn-envoyer" value="Ajouter" />
 </form>
 <button onclick="annuler_modal_1();" type="button" class="btn btn-annuler" name="button">Annuler</button>
 

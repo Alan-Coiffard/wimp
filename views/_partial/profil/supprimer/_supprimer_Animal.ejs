@@ -1,0 +1,28 @@
+<h2><u>supprimer un animal</u></h2>
+<form action="/ajoutAnimal" method="post" class="form-ajout">
+    <p>Voulez-vous vraiment supprimer cet animal ?</p>
+
+  <input type="submit" class="btn btn-envoyer" value="Ajouter" />
+</form>
+<button onclick="annuler_modal_1();" type="button" class="btn btn-annuler" name="button">Annuler</button>
+
+<script type="text/javascript">
+function verif ()
+{
+    var etat = document.getElementById('check').checked;
+    if(etat)
+    {
+        document.getElementById('range').className = 'on';
+    }
+    else
+    {
+        document.getElementById('range').className = 'off';
+    }
+}
+function annuler_modal_1(){
+  var addAnimal = document.getElementById('addAnimal');
+  console.log(addAnimal);
+  addAnimal.style.display = "none";
+}
+
+</script>

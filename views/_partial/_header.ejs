@@ -6,6 +6,8 @@
 
     <title>Bienvenue dans mon site</title>
 
+    <link rel="stylesheet" href="popupS.css">
+
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
@@ -20,11 +22,11 @@
             </div>
           </div>
         <% } %>
-        <% if (typeof success != 'undefined') { %>
+        <% if (typeof validate != 'undefined') { %>
           <div class="message-block">
             <div class="message message-success">
-              <% success.forEach(success => { %>
-                <li><%= success.message %></li>
+              <% validate.forEach(validate => { %>
+                <li><%= validate.message %></li>
               <% }) %>
             </div>
           </div>

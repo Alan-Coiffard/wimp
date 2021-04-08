@@ -38,7 +38,7 @@ const signup = (request, response) => {
   } else {
     findUser(user)
       .then(foundUser => {
-        console.log("foundUser", foundUser);
+        //console.log("foundUser", foundUser);
         if (!foundUser) {
           hashPassword(user.password)
             .then((hashedPassword) => {
@@ -167,15 +167,15 @@ const modifyProfil = (request, response) => {
   const user = request.body
   let { email, nom, prenom } = request.body;
   const userId = request.session.id_client;
-  console.log("User with id : ", userId);
+  //console.log("User with id : ", userId);
 
   let errors = [];
 
-  console.log({
-    email,
-    nom,
-    prenom
-  });
+  // console.log({
+  //   email,
+  //   nom,
+  //   prenom
+  // });
 
   if (!nom || !prenom || !email) {
     errors.push({ message: "Please enter all fields" });
@@ -247,7 +247,8 @@ const signin = (request, response) => {
 
 // app/models/user.js
 const findAnimal = (request, response) => {
-  console.log(request.session.id_client);
+  console.log("Entrer dans find");
+  //console.log(request.session.id_client);
   let errors = []
   if (!request.session.id_client) {
     errors.push({ message: "Connectez-vous" });
@@ -265,6 +266,7 @@ const findAnimal = (request, response) => {
         request.session.animaux = animaux;
         //response.status(200).json(user);
       })
+      .catch((err) => console.error(err))
 
     _findCollier(request.session.id_client)
       .then(foundCollier => {
@@ -274,20 +276,28 @@ const findAnimal = (request, response) => {
       .then(() => {
         //console.log("Colliers: ", colliers);
         request.session.colliers = colliers;
-        response.redirect('/profil');
+        response.redirect('./profil');
         //response.status(200).json(user);
       })
+      .catch((err) => console.error(err))
   }
 }
 
 const _findAnimal = (id_client) => {
-
-  let request = database.raw("SELECT colliers.id_collier, numero_collier, animaux.id_animal, nom, naissance_animal, type_animal, distance, animaux.id_collier, id_utilisateur, AGE(naissance_animal) AS age_animal FROM animaux, colliers WHERE id_utilisateur = ? AND animaux.id_collier = colliers.id_collier", [id_client], (err, res) => {
-    //console.log(err ? err.stack : "test ",res.rows[0]) // Hello World!
-    database.end()
+  return database.raw(
+    "SELECT colliers.id_collier, colliers.numero_collier, colliers.id_client, id_animal_collier, animaux.id_animal, nom_animal, naissance_animal, type_animal, distance, animaux.id_collier, id_utilisateur, AGE(naissance_animal) AS age_animal FROM animaux left join colliers on colliers.id_collier = animaux.id_collier"
+  )
+  .then((data) => {
+    console.log(data.rows);
+    return data
   })
-  return request
 }
+
+
+/*
+* Le probleme est que je veut recuperer id_collier si l'animal en a un et s'il n'en a pas ile ne recupere pas les informations
+* Pour l'instant il recupere les info de n'importe quel collier si l'id collier est null
+*/
 
 const _findCollier = (id_client) => {
   let request = database.raw("SELECT * FROM colliers WHERE id_client = ?", [id_client], (err, res) => {
@@ -299,7 +309,7 @@ const _findCollier = (id_client) => {
 
 const findType = (request, response) => {
 
-  console.log(request.session.id_client);
+  //console.log(request.session.id_client);
   let errors = []
   if (!request.session.id_client) {
     errors.push({ message: "Connectez-vous" });
@@ -318,11 +328,12 @@ const findType = (request, response) => {
         response.render('home/home');
         //response.status(200).json(user);
       })
+      .catch((err) => console.error(err))
   }
 }
 
 const _findType = (id_client)  => {
-  console.log(id_client);
+  //console.log(id_client);
   let request = database.raw("SELECT * FROM types")
   return request
 }
@@ -332,66 +343,203 @@ const _findType = (id_client)  => {
 
 //ajouter un animal
 
-const addAnimal = (request, response) => {
+const ajoutAnimal = (request, response) => {
   const animal = request.body
-  let { nom_animal, type, password, password2 } = request.body;
-
+  console.log(animal);
   let errors = [];
+  let validate = [];
+  let { nom_animal, type, naissance_animal, distance, id_collier } = request.body;
+  let id_client = request.session.id_client;
 
-  console.log({
-    email,
-    nom,
-    prenom,
-    password,
-    password2
-  });
+  if (animal.distance == '') {
+    animal.distance = null;
+  }
 
-  if (!nom || !prenom || !email || !password || !password2) {
+  if (animal.id_collier == '') {
+    animal.id_collier = null;
+  }
+  console.log(id_collier);
+  if (!nom_animal || !type || !naissance_animal) {
     errors.push({ message: "Please enter all fields" });
   }
-
-  if (password.length < 6) {
-    errors.push({ message: "Password must be a least 6 characters long" });
-  }
-
-  if (password !== password2) {
-    errors.push({ message: "Passwords do not match" });
+  if (request.session.colliers.id_animal != null) {
+    errors.push({ message: "Le collier est déjà utilisé" });
   }
 
   if (errors.length > 0) {
-    response.render("home/inscription", { errors, nom, prenom, email, password, password2 });
+    response.render("./profil", errors);
   } else {
-    findUser(user)
-      .then(foundUser => {
-        console.log("foundUser", foundUser);
-        if (!foundUser) {
-          hashPassword(user.password)
-            .then((hashedPassword) => {
-              delete user.password
-              user.password = hashedPassword
-            })
-            //.then(() => createToken())
-            //.then(token => user.token = token)
-            .then(() => createUser(user))
-            .then(user => {
-              delete user.password
-              // response.status(201).json({ user })
-              request.session.id_client = user.id_client;
-              request.session.nom = user.nom;
-              request.session.prenom = user.prenom;
-              request.session.email = user.email;
+    createAnimal(animal, id_client)
+    .then(() => {
+      validate.push({ message: "Animal bien ajouté !" });
+      response.redirect('/find');
+    })
+    .catch((err) => console.error(err))
+  }
+}
 
-              response.redirect('/home');
-            })
-            .catch((err) => console.error(err))
+// user will be saved to db - we're explicitly asking postgres to return back helpful info from the row created
+
+//UPDATE clients SET nom = ?, prenom = ?, email = ? WHERE id_client = ? RETURNING nom, prenom, email
+const createAnimal = (animal, id_client) => {
+  return database.raw(
+    "INSERT INTO animaux (nom_animal, naissance_animal, type_animal, distance, id_collier, id_utilisateur) VALUES (?, ?, ?, ?, ?, ?) RETURNING id_animal, nom_animal, naissance_animal, type_animal, distance, id_collier, id_utilisateur",
+    [animal.nom_animal, animal.naissance_animal, animal.type, animal.distance, animal.id_collier, id_client]
+  )
+  .then((data) => {
+    data.rows[0]
+    return database.raw(
+      "UPDATE colliers SET id_animal_collier = ? WHERE id_collier = ?",
+      [data.rows[0].id_animal, data.rows[0].id_collier]
+    )
+  })
+}
+
+const findAnimalById = (animalReq) => {
+  return database.raw("SELECT * FROM animaux WHERE id_animal = ?", [animalReq])
+    .then((data) => data.rows[0])
+}
+
+const supprimerAnimal = (request, response) => {
+  console.log("Les cookies ", request.cookies.id);
+  let errors = []
+  let id_animal = request.cookies.id;
+  findAnimalById(id_animal)
+    .then(foundAnimal => {
+      console.log("Found animal : ", foundAnimal);
+      if (foundAnimal) {
+        return database.raw(
+          "UPDATE colliers SET id_animal_collier = ? WHERE id_collier = ?",
+          [null, foundAnimal.id_collier]
+        )
+        .then(() => {
+          return database.raw(
+            "DELETE FROM animaux WHERE id_animal = ?",
+            [foundAnimal.id_animal]
+          )
+          .then(() => {
+            response.redirect('/find');
+          })
+          .catch((err) => {
+            console.error(err)
+            errors.push({ message: err.detail });
+            response.render("./profil", { errors });
+          })
+        })
+        .catch((err) => {
+          console.error(err)
+          errors.push({ message: err.detail });
+          response.render("./profil", { errors });
+        })
+      } else {
+        errors.push({ message: "Vous n'avez pas cet animal" });
+        response.render("./profil", { errors });
+      }
+      return foundAnimal
+    })
+    .catch((err) => {
+      console.error(err)
+      errors.push({ message: err.detail });
+      response.render("./profil", { errors });
+    })
+}
+
+/**************************Collier********************************/
+
+//ajouter un collier
+
+const ajoutCollier = (request, response) => {
+
+  const collier = request.body
+  //console.log("Collier : ", collier);
+  let errors = [];
+  let validate = [];
+  let { numero_collier } = request.body;
+  let id_client = request.session.id_client;
+
+  if (!numero_collier) {
+    errors.push({ message: "Please enter all fields" });
+  }
+
+  if (errors.length > 0) {
+    response.render("./profil", errors);
+  } else {
+    findCollier(collier)
+      .then(foundCollier => {
+        //console.log("foundUser", foundUser);
+        //console.log("user mail : ", user.email);
+        //console.log("foundUser mail : ", foundUser.email);
+        if (!foundCollier) {
+          createCollier(collier, id_client)
+          .then(collier => {
+            response.redirect('/find');
+          })
+          .catch((err) => {
+            console.error(err)
+          })
         } else {
-          errors.push({ message: "Email already registered" });
-          response.render("home/inscription", { errors, nom, prenom, email, password, password2 });
+          errors.push({ message: "Numéro de collier déjà utilisé" });
+          response.render("./profil", { errors });
         }
-        return foundUser
+        return foundCollier
       })
       .catch((err) => console.error(err))
   }
+}
+
+const findCollier = (collierReq) => {
+  return database.raw("SELECT * FROM colliers WHERE numero_collier = ?", [collierReq.numero_collier])
+    .then((data) => data.rows[0])
+}
+// user will be saved to db - we're explicitly asking postgres to return back helpful info from the row created
+
+//UPDATE clients SET nom = ?, prenom = ?, email = ? WHERE id_client = ? RETURNING nom, prenom, email
+const createCollier = (collier, id_client) => {
+  return database.raw(
+    "INSERT INTO colliers (numero_collier, id_client) VALUES (?, ?) RETURNING id_collier, numero_collier, id_client",
+    [collier.numero_collier, id_client]
+  )
+  .then((data) => {
+    data.rows[0]
+  })
+  .catch((err) => {
+    console.error(err)
+  })
+}
+
+const findCollierById = (collierReq) => {
+  return database.raw("SELECT * FROM colliers WHERE id_collier = ?", [collierReq])
+    .then((data) => data.rows[0])
+}
+
+const supprimerCollier = (request, response) => {
+  console.log(request.body.id_collier);
+  let errors = []
+  let id_collier = request.body.id_collier;
+  findCollierById(id_collier)
+    .then(foundCollier => {
+      console.log(foundCollier);
+
+      if (foundCollier) {
+        return database.raw(
+          "DELETE FROM colliers WHERE id_collier = ?",
+          [foundCollier.id_collier]
+        )
+        .then(() => {
+          response.redirect('/find');
+        })
+        .catch((err) => {
+          console.error(err)
+          errors.push({ message: "Le collier est toujours utilisé" });
+          response.render("./profil", { errors });
+        })
+      } else {
+        errors.push({ message: "Vous n'avez pas ce collier" });
+        response.render("./profil", { errors });
+      }
+      return foundCollier
+    })
+    .catch((err) => console.error(err))
 }
 
 
@@ -401,5 +549,9 @@ module.exports = {
   signin,
   modifyProfil,
   findAnimal,
-  findType
+  findType,
+  ajoutAnimal,
+  ajoutCollier,
+  supprimerCollier,
+  supprimerAnimal
 }

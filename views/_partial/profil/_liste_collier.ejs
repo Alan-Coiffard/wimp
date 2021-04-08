@@ -13,9 +13,10 @@
         <button type="button" class="btn btn-modifier" name="button">
           <img src="https://img.icons8.com/metro/15/000000/edit.png"/>
         </button>
-        <button type="button" class="btn btn-supprimer" name="button">
-          <img src="https://img.icons8.com/android/15/000000/trash.png"/>
-        </button>
+        <form action="/supprimerCollier" method="post" class="btn btn-supprimer">
+          <input type="hidden" name="id_collier" value="<%= collier.id_collier %>">
+          <input type="image" class="btn btn-supprimer" value="" src="https://img.icons8.com/android/15/000000/trash.png"/>
+        </form>
       </div>
     <%}%>
   </div>

@@ -1,5 +1,6 @@
 <h2>Liste des animaux</h2>
-<% if(locals.user.colliers[0]){ %>
+<% //console.log("User : ",locals.user); %>
+<% if(locals.user.animaux[0]){ %>
 <div class="tab-overflow">
   <div class="wrapper wrapper-entete">
     <p>Nom</p>
@@ -9,21 +10,56 @@
     <p>Collier</p>
   </div>
   <div class="wrapper wrapper-body">
+    <%= //console.log(locals.user.animaux); %>
     <% for (const animal of locals.user.animaux) { %>
+      <%= //console.log(animal.id_animal); %>
+
     <div>
-      <p><%= animal.nom %></p>
+      <p><%= animal.nom_animal %></p>
       <p><%= animal.type_animal %></p>
-      <% console.log(animal.age_animal); %>
-      <p><%= animal.age_animal.years %> an<% if(animal.age_animal.years > 1){ %>s<%}%> <%= animal.age_animal.months %> moi<% if(animal.age_animal.months > 1){ %>s<%}%></p>
-      <p><%= animal.distance %></p>
-      <p><%= animal.numero_collier %></p>
+      <% //console.log(animal.age_animal); %>
+      <p><%= animal.age_animal.years %> an<% if(animal.age_animal.years > 1){ %>s<%}%><% if(animal.age_animal.months != 0){ %> <%= animal.age_animal.months %> mois<%}%></p>
+      <p><%= animal.distance %> m</p>
+      <p><% if (animal.numero_collier != null) {%>
+        <%= animal.numero_collier %>
+        <% } else { %>
+          Pas de collier
+      <% } %></p>
       <button type="button" class="btn btn-modifier" name="button">
         <img src="https://img.icons8.com/metro/15/000000/edit.png"/>
       </button>
-      <button type="button" class="btn btn-supprimer" name="button">
+      <!-- <form action="/supprimerAnimal" method="post" class="btn btn-supprimer">
+        <input type="hidden" name="id_animal" value="">
+        <input type="image" class="btn btn-supprimer" value="" src="https://img.icons8.com/android/15/000000/trash.png"/>
+      </form> -->
+      <button id="test-<%= animal.id_animal %>" type="button" class="btn btn-modifier" value="<%= animal.id_animal %>" name="<%= animal.nom_animal %>">
         <img src="https://img.icons8.com/android/15/000000/trash.png"/>
       </button>
     </div>
+    <script>
+
+    	// Display a confirm alert
+    	document.querySelector("#test-<%= animal.id_animal%>").addEventListener("click", function() {
+        var selected = document.getElementById('test-<%= animal.id_animal%>');
+        console.log(selected.id);
+        const words = selected.id.split('-');
+        document.cookie = "id="+words[1];
+
+        console.log(document.cookie);
+        let msg = "Veux-tu vraiment supprimer l'animal : " + selected.name;
+    		JSAlert.confirm(msg).then(function(result) {
+
+    			// Check if pressed yes
+    			if (!result)
+    				return;
+
+    			// User pressed yes!
+          window.location.href = "/supprimerAnimal";
+    		});
+
+    	});
+
+    </script>
     <% } %>
   </div>
 </div>
