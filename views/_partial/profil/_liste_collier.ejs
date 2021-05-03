@@ -10,14 +10,35 @@
       <div>
         <p><%= collier.id_collier %></p>
         <p><%= collier.numero_collier %></p>
-        <button type="button" class="btn btn-modifier" name="button">
-          <img src="https://img.icons8.com/metro/15/000000/edit.png"/>
+        <button id="test-<%= collier.id_collier %>" type="button" class="btn btn-modifier" value="<%= collier.id_collier %>" name="<%= collier.numero_collier %>">
+          <img src="https://img.icons8.com/android/15/000000/trash.png"/>
         </button>
-        <form action="/supprimerCollier" method="post" class="btn btn-supprimer">
-          <input type="hidden" name="id_collier" value="<%= collier.id_collier %>">
-          <input type="image" class="btn btn-supprimer" value="" src="https://img.icons8.com/android/15/000000/trash.png"/>
-        </form>
       </div>
+      <script>
+
+      	// Display a confirm alert
+      	document.querySelector("#test-<%= collier.id_collier %>").addEventListener("click", function() {
+          var selected = document.getElementById('test-<%= collier.id_collier%>');
+          console.log("selected : ");
+          console.log(selected.id);
+          const words = selected.id.split('-');
+          document.cookie = "id="+words[1];
+
+          console.log(document.cookie);
+          let msg = "Veux-tu vraiment supprimer le collier n°" + selected.name;
+      		JSAlert.confirm(msg).then(function(result) {
+
+      			// Check if pressed yes
+      			if (!result)
+      				return;
+
+      			// User pressed yes!
+            window.location.href = "/supprimerCollier";
+      		});
+
+      	});
+
+      </script>
     <%}%>
   </div>
 </div>

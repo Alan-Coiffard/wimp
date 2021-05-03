@@ -112,7 +112,7 @@
   }
   .wrapper2 {
     display: grid;
-    grid-template-columns: repeat(2, 1fr) 50px 50px;
+    grid-template-columns: repeat(2, 1fr) 50px;
     /*grid-auto-rows: 100px;*/
   }
   .wrapper > p, .wrapper > div > p,.wrapper2 > p, .wrapper2 > div > p {

@@ -1,6 +1,6 @@
 <h2>Liste des animaux</h2>
 <% //console.log("User : ",locals.user); %>
-<% if(locals.user.animaux[0]){ %>
+<% if(locals.user.animaux){ %>
 <div class="tab-overflow">
   <div class="wrapper wrapper-entete">
     <p>Nom</p>
@@ -25,22 +25,22 @@
         <% } else { %>
           Pas de collier
       <% } %></p>
-      <button type="button" class="btn btn-modifier" name="button">
+      <button id="modifier-<%= animal.id_animal %>" type="button" class="btn btn-modifier" value="<%= animal.id_animal %>" name="<%= animal.nom_animal %>">
         <img src="https://img.icons8.com/metro/15/000000/edit.png"/>
       </button>
       <!-- <form action="/supprimerAnimal" method="post" class="btn btn-supprimer">
         <input type="hidden" name="id_animal" value="">
         <input type="image" class="btn btn-supprimer" value="" src="https://img.icons8.com/android/15/000000/trash.png"/>
       </form> -->
-      <button id="test-<%= animal.id_animal %>" type="button" class="btn btn-modifier" value="<%= animal.id_animal %>" name="<%= animal.nom_animal %>">
+      <button id="supprimer-<%= animal.id_animal %>" type="button" class="btn btn-modifier" value="<%= animal.id_animal %>" name="<%= animal.nom_animal %>">
         <img src="https://img.icons8.com/android/15/000000/trash.png"/>
       </button>
     </div>
     <script>
 
     	// Display a confirm alert
-    	document.querySelector("#test-<%= animal.id_animal%>").addEventListener("click", function() {
-        var selected = document.getElementById('test-<%= animal.id_animal%>');
+    	document.querySelector("#supprimer-<%= animal.id_animal%>").addEventListener("click", function() {
+        var selected = document.getElementById('supprimer-<%= animal.id_animal%>');
         console.log(selected.id);
         const words = selected.id.split('-');
         document.cookie = "id="+words[1];
@@ -59,6 +59,23 @@
 
     	});
 
+      // Display a confirm alert
+      document.querySelector("#modifier-<%= animal.id_animal%>").addEventListener("click", function() {
+        var selected = document.getElementById('modifier-<%= animal.id_animal%>');
+        console.log(selected.id);
+        const words = selected.id.split('-');
+        document.cookie = "id="+words[1];
+
+        window.location.href = "/modifierAnimal";
+
+        // console.log(document.cookie);
+        // var modifyAnimal = document.getElementById("modifyAnimal");
+        // modifyAnimal.style.display = "block";
+        // modifyAnimal.name = words[1];
+        // console.log(modifyAnimal.name);
+
+      });
+
     </script>
     <% } %>
   </div>
@@ -69,6 +86,7 @@
 </div>
 <%}%>
 <button type="button" onclick="ajouterAnimal();" class="btn btn-envoyer" name="button">Ajouter</button>
+
 <script type="text/javascript">
   function ajouterAnimal(){
     var addAnimal = document.getElementById("addAnimal");

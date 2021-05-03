@@ -6,7 +6,7 @@ var router = express.Router();
 
 router.use(function(req, res, next){
   //console.log('Dans index : ', req.session.colliers);
-  console.log('Dans index animaux : ', req.session);
+  //console.log('Dans index animaux : ', req.session);
   res.locals.user = req.session;
   next();
 });
@@ -30,6 +30,8 @@ router.use("/profil", require("./home"));
 router.use("/modifierProfil", require("./home"));
 
 router.use("/ajoutAnimal", require("./home"));
+
+router.use("/modifierAnimal", require("./home"));
 
 router.use("/supprimerAnimal", require("./home"));
 

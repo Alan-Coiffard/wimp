@@ -246,7 +246,7 @@ const signin = (request, response) => {
 }
 
 // app/models/user.js
-const findAnimal = (request, response) => {
+const findAll = (request, response) => {
   console.log("Entrer dans find");
   //console.log(request.session.id_client);
   let errors = []
@@ -256,14 +256,28 @@ const findAnimal = (request, response) => {
   if (errors.length > 0) {
     response.render("home/connexion", { errors });
   } else {
+    // _findAnimal(request.session.id_client)
+    //   .then(foundAnimals => {
+    //     //console.log("This -----",foundAnimals.rows);
+    //     animaux = foundAnimals.rows
+    //     return animaux
+    //   })
+    //   .then(() => {
+    //     request.session.animaux = animaux;
+    //     //response.status(200).json(user);
+    //   })
+    //   .catch((err) => console.error(err))
+
     _findAnimal(request.session.id_client)
       .then(foundAnimals => {
-        //console.log("This -----",foundAnimals.rows);
         animaux = foundAnimals.rows
         return animaux
       })
       .then(() => {
+        //console.log("Colliers: ", colliers);
+        console.log("---------------------------------------------------------------------animaux");
         request.session.animaux = animaux;
+        //response.redirect('./profil');
         //response.status(200).json(user);
       })
       .catch((err) => console.error(err))
@@ -275,6 +289,7 @@ const findAnimal = (request, response) => {
       })
       .then(() => {
         //console.log("Colliers: ", colliers);
+        console.log("---------------------------------------------------------------------colliers");
         request.session.colliers = colliers;
         response.redirect('./profil');
         //response.status(200).json(user);
@@ -284,20 +299,12 @@ const findAnimal = (request, response) => {
 }
 
 const _findAnimal = (id_client) => {
-  return database.raw(
-    "SELECT colliers.id_collier, colliers.numero_collier, colliers.id_client, id_animal_collier, animaux.id_animal, nom_animal, naissance_animal, type_animal, distance, animaux.id_collier, id_utilisateur, AGE(naissance_animal) AS age_animal FROM animaux left join colliers on colliers.id_collier = animaux.id_collier"
-  )
-  .then((data) => {
-    console.log(data.rows);
-    return data
+  let request = database.raw("SELECT colliers.id_collier, colliers.numero_collier, colliers.id_client, id_animal_collier, animaux.id_animal, nom_animal, naissance_animal, type_animal, distance, animaux.id_collier, id_utilisateur, AGE(naissance_animal) AS age_animal FROM animaux left join colliers on colliers.id_collier = animaux.id_collier WHERE id_utilisateur = ?", [id_client], (err, res) => {
+    //console.log(err ? err.stack : "test ",res.rows[0]) // Hello World!
+    database.end()
   })
+  return request
 }
-
-
-/*
-* Le probleme est que je veut recuperer id_collier si l'animal en a un et s'il n'en a pas ile ne recupere pas les informations
-* Pour l'instant il recupere les info de n'importe quel collier si l'id collier est null
-*/
 
 const _findCollier = (id_client) => {
   let request = database.raw("SELECT * FROM colliers WHERE id_client = ?", [id_client], (err, res) => {
@@ -306,6 +313,16 @@ const _findCollier = (id_client) => {
   })
   return request
 }
+
+// const _findAnimal = (id_client) => {
+//   return database.raw(
+//     "SELECT colliers.id_collier, colliers.numero_collier, colliers.id_client, id_animal_collier, animaux.id_animal, nom_animal, naissance_animal, type_animal, distance, animaux.id_collier, id_utilisateur, AGE(naissance_animal) AS age_animal FROM animaux left join colliers on colliers.id_collier = animaux.id_collier WHERE id_utilisateur = ?"
+//   )
+//   .then((data) => {
+//     console.log("Data dans _findAnimal : ", data.rows);
+//     return data
+//   })
+// }
 
 const findType = (request, response) => {
 
@@ -371,8 +388,9 @@ const ajoutAnimal = (request, response) => {
   } else {
     createAnimal(animal, id_client)
     .then(() => {
+      request.session.validate = "animal Bien ajouté !";
       validate.push({ message: "Animal bien ajouté !" });
-      response.redirect('/find');
+      response.redirect("./profil");
     })
     .catch((err) => console.error(err))
   }
@@ -395,9 +413,18 @@ const createAnimal = (animal, id_client) => {
   })
 }
 
-const findAnimalById = (animalReq) => {
-  return database.raw("SELECT * FROM animaux WHERE id_animal = ?", [animalReq])
-    .then((data) => data.rows[0])
+// const findAnimalById = (animalReq) => {
+//   return database.raw("SELECT * FROM animaux WHERE id_animal = ?", [animalReq])
+//     .then((data) => data.rows[0])
+// }
+
+
+const findAnimalById = (id_animal) => {
+  let request = database.raw("SELECT colliers.id_collier, colliers.numero_collier, colliers.id_client, id_animal_collier, animaux.id_animal, nom_animal, naissance_animal, type_animal, distance, animaux.id_collier, id_utilisateur, AGE(naissance_animal) AS age_animal FROM animaux left join colliers on colliers.id_collier = animaux.id_collier WHERE id_animal = ?", [id_animal], (err, res) => {
+    //console.log(err ? err.stack : "test ",res.rows[0]) // Hello World!
+    database.end()
+  })
+  return request
 }
 
 const supprimerAnimal = (request, response) => {
@@ -423,17 +450,17 @@ const supprimerAnimal = (request, response) => {
           .catch((err) => {
             console.error(err)
             errors.push({ message: err.detail });
-            response.render("./profil", { errors });
+            response.redirect("./profil", { errors });
           })
         })
         .catch((err) => {
           console.error(err)
           errors.push({ message: err.detail });
-          response.render("./profil", { errors });
+          response.redirect("./profil", { errors });
         })
       } else {
         errors.push({ message: "Vous n'avez pas cet animal" });
-        response.render("./profil", { errors });
+        response.redirect("./profil", { errors });
       }
       return foundAnimal
     })
@@ -513,13 +540,11 @@ const findCollierById = (collierReq) => {
 }
 
 const supprimerCollier = (request, response) => {
-  console.log(request.body.id_collier);
   let errors = []
-  let id_collier = request.body.id_collier;
+  let id_collier = request.cookies.id;
   findCollierById(id_collier)
     .then(foundCollier => {
       console.log(foundCollier);
-
       if (foundCollier) {
         return database.raw(
           "DELETE FROM colliers WHERE id_collier = ?",
@@ -527,6 +552,7 @@ const supprimerCollier = (request, response) => {
         )
         .then(() => {
           response.redirect('/find');
+          //response.redirect('/find');
         })
         .catch((err) => {
           console.error(err)
@@ -543,15 +569,27 @@ const supprimerCollier = (request, response) => {
 }
 
 
+const modifierAnimal = (request, response) => {
+  let id_animal = request.cookies.id;
+  findAnimalById(id_animal)
+    .then(foundAnimal => {
+      //animaux = foundAnimals.rows
+      request.session.modifierAnimal = foundAnimal.rows;
+      response.render("_partial/profil/modifier/_modifier_animal");
+    })
+    .catch((err) => console.error(err))
+}
+
 // don't forget to export!
 module.exports = {
   signup,
   signin,
   modifyProfil,
-  findAnimal,
+  findAll,
   findType,
   ajoutAnimal,
   ajoutCollier,
   supprimerCollier,
-  supprimerAnimal
+  supprimerAnimal,
+  modifierAnimal
 }
