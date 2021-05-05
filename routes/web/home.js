@@ -53,6 +53,7 @@ router.get("/deconnexion", function(req, res){
 });
 
 router.get('/find', User.findAll);
+router.get('/findHome', User.findHome);
 
 router.get("/profil", function(req, res){
   console.log("profil page charged");
@@ -63,10 +64,14 @@ router.post('/inscription', User.signup);
 router.post('/connexion', User.signin);
 router.post('/modifierProfil', User.modifyProfil);
 
+
+
 router.post('/ajoutAnimal', User.ajoutAnimal);
 router.get('/supprimerAnimal', User.supprimerAnimal);
-router.get('/modifierAnimal', User.modifierAnimal);
 
+router.get('/entreModif', User.entreModif);
+router.get('/sortiModif', User.sortiModif);
+router.post('/modifierAnimal', User.modifierAnimal);
 
 //router.post('/supprimerAnimal', User.supprimerAnimal);
 

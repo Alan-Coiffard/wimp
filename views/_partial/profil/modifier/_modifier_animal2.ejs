@@ -1,0 +1,55 @@
+<h2><u>Modifier l'animal</u></h2>
+<% console.log("Animal trouvé pour modif --> ", user.modifierAnimal[0]); %>
+<form action="/ajoutAnimal" method="post" class="form-ajout">
+
+  <label><b>Nom de l'animal :</b> <input type="text" name="nom_animal" value="<%- user.modifierAnimal[0].nom_animal %>"></label>
+  <label><b>Type :</b>
+    <select name="type" id="pet-select">
+      <option value="">--Choisir un type d'animal--</option>
+      <% for (const type of locals.user.types) { %>
+          <option name="type" value="<%= type.type %>"><%= type.type %></option>
+      <%}%>
+    </select>
+  </label>
+
+  <label><b>Date de naissance :</b><input type="date" name="naissance_animal" value="<%- user.modifierAnimal[0].naissance_animal %>"></label>
+
+  <label><input id="check" type="checkbox" <% if(user.modifierAnimal[0].distance != null){ %> checked <%}%> onChange="verif();" />Distance maximal</label>
+  <div id="range" class="">
+    <input type="range" name="distance" class="notinput" min="0" max="100" value="<% if(user.modifierAnimal[0].distance != null){ user.modifierAnimal[0].distance }%>" oninput="document.getElementById('AfficheRange').textContent=value" />
+    <span id="AfficheRange"><%- user.modifierAnimal[0].distance %></span>m
+  </div>
+  <label><b>Collier à utiliser :</b>
+    <select name="id_collier" id="pet-select">
+      <option value="<%- user.modifierAnimal[0].id_collier %>"><%- user.modifierAnimal[0].numero_collier %></option>
+      <% for (const collier of locals.user.colliers) { %>
+        <% if(collier.id_animal_collier == null){ %>
+          <option name="type" value="<%= collier.id_collier %>"><%= collier.numero_collier %></option>
+        <%}%>
+      <%}%>
+    </select>
+  </label>
+
+  <input type="submit" class="btn btn-envoyer" value="Ajouter" />
+</form>
+<button onclick="close_modifier();" type="button" class="btn btn-annuler" name="button">Annuler</button>
+
+<script type="text/javascript">
+function verif ()
+{
+    var etat = document.getElementById('check').checked;
+    if(etat)
+    {
+        document.getElementById('range').className = 'on';
+    }
+    else
+    {
+        document.getElementById('range').className = 'off';
+    }
+}
+function close_modifier(){
+  var modifyAnimal = document.getElementById('modifyAnimal');
+  modifyAnimal.style.display = "none";
+}
+
+</script>

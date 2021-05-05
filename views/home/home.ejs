@@ -34,7 +34,16 @@
         <a href="/deconnexion"><img class="img-profil" src="https://img.icons8.com/pastel-glyph/64/000000/exit--v2.png"/></a>
       </div>
       <div class="options-api">
-        Options
+        <% if(locals.user.animaux){ %>
+          <select name="listeAnimaux" id="listeAnimaux" style="height: 10%; width: 100%;">
+            <option value="">--Choisir l'animal--</option>
+            <% for (const animal of locals.user.animaux) { %>
+                <option name="type" value="<%= animal.id_animal %>"><%= animal.nom_animal %></option>
+            <%}%>
+          </select>
+        <%}else{%>
+          Options
+        <%}%>
       </div>
     </div>
   </div>

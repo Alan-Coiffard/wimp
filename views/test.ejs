@@ -1,31 +1,9 @@
-<button class="js-static-modal-toggle-main btn btn-lg btn-primary" type="button">Show Me The Modal</button>
-<div id="static-modal" class="modal fade" tabindex="-1" role="dialog" style="display: none; padding-right: 17px;">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-              <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-              <p>One fine body…</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div>
-<script type="text/javascript">
-document.querySelector('.js-confirm-modal-toggle').addEventListener('click', function() {
-
-  // Here we create our dynamic modal
-  var confirmModal = Modal.confirm('My Custom Alert');
-  confirmModal.show().once('dismiss', function(modal, ev, button) {
-    if (button && button.value) {
-      alert("You've clicked on an OK button.");
-    }
-  });
-
-});
-</script>
+<li>values.id_animal : <%= values[0].id_animal %></li>
+<li>values.id_collier : <%= values[1].id_collier %></li>
+<li>values.numero_collier : <%= values[2].numero_collier %></li>
+<li>values.id_client : <%= values[3].id_client %></li>
+<li>values.nom_animal : <%= values[4].nom_animal %></li>
+<li>values.naissance_animal : <%= values[5].naissance_animal %></li>
+<li>values.type_animal : <%= values[6].type_animal %></li>
+<li>values.distance : <%= values[7].distance %></li>
+<li>values.age_animal : <%= values[8].age_animal.years %></li>

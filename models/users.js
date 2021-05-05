@@ -56,7 +56,7 @@ const signup = (request, response) => {
               request.session.prenom = user.prenom;
               request.session.email = user.email;
 
-              response.redirect('/home');
+              response.redirect('/findHome');
             })
             .catch((err) => console.error(err))
         } else {
@@ -209,7 +209,7 @@ const modifyProfil = (request, response) => {
             request.session.prenom = user.prenom;
             request.session.email = user.email;
 
-            response.redirect('./profil');
+            response.redirect('/profil');
           })
           .catch((err) => console.error(err))
         } else {
@@ -226,6 +226,7 @@ const modifyProfil = (request, response) => {
 const signin = (request, response) => {
   const userReq = request.body
   let user
+  let errors = [];
 
   findUser(userReq)
     .then(foundUser => {
@@ -239,10 +240,13 @@ const signin = (request, response) => {
       request.session.prenom = user.prenom;
       request.session.email = user.email;
 
-      response.redirect('/home');
+      response.redirect('/findHome');
       //response.status(200).json(user);
     })
-    .catch((err) => console.error(err))
+    .catch((err) => {
+      console.error(err);
+      response.render("home/connexion", { err });
+    })
 }
 
 // app/models/user.js
@@ -256,18 +260,6 @@ const findAll = (request, response) => {
   if (errors.length > 0) {
     response.render("home/connexion", { errors });
   } else {
-    // _findAnimal(request.session.id_client)
-    //   .then(foundAnimals => {
-    //     //console.log("This -----",foundAnimals.rows);
-    //     animaux = foundAnimals.rows
-    //     return animaux
-    //   })
-    //   .then(() => {
-    //     request.session.animaux = animaux;
-    //     //response.status(200).json(user);
-    //   })
-    //   .catch((err) => console.error(err))
-
     _findAnimal(request.session.id_client)
       .then(foundAnimals => {
         animaux = foundAnimals.rows
@@ -291,7 +283,47 @@ const findAll = (request, response) => {
         //console.log("Colliers: ", colliers);
         console.log("---------------------------------------------------------------------colliers");
         request.session.colliers = colliers;
-        response.redirect('./profil');
+        response.redirect('/profil');
+        //response.status(200).json(user);
+      })
+      .catch((err) => console.error(err))
+  }
+}
+
+const findHome = (request, response) => {
+  console.log("Entrer dans find");
+  //console.log(request.session.id_client);
+  let errors = []
+  if (!request.session.id_client) {
+    errors.push({ message: "Connectez-vous" });
+  }
+  if (errors.length > 0) {
+    response.render("home/connexion", { errors });
+  } else {
+    _findAnimal(request.session.id_client)
+      .then(foundAnimals => {
+        animaux = foundAnimals.rows
+        return animaux
+      })
+      .then(() => {
+        //console.log("Colliers: ", colliers);
+        console.log("---------------------------------------------------------------------animaux");
+        request.session.animaux = animaux;
+        //response.redirect('./profil');
+        //response.status(200).json(user);
+      })
+      .catch((err) => console.error(err))
+
+    _findCollier(request.session.id_client)
+      .then(foundCollier => {
+        colliers = foundCollier.rows
+        return colliers
+      })
+      .then(() => {
+        //console.log("Colliers: ", colliers);
+        console.log("---------------------------------------------------------------------colliers");
+        request.session.colliers = colliers;
+        response.redirect('/home');
         //response.status(200).json(user);
       })
       .catch((err) => console.error(err))
@@ -386,13 +418,13 @@ const ajoutAnimal = (request, response) => {
   if (errors.length > 0) {
     response.render("./profil", errors);
   } else {
-    createAnimal(animal, id_client)
-    .then(() => {
-      request.session.validate = "animal Bien ajouté !";
-      validate.push({ message: "Animal bien ajouté !" });
-      response.redirect("./profil");
-    })
-    .catch((err) => console.error(err))
+    return createAnimal(animal, id_client)
+      .then(animalCree => {
+        request.session.validate = "animal Bien ajouté !";
+        validate.push({ message: "Animal bien ajouté !" });
+        response.redirect('/find');
+      })
+      .catch((err) => console.error(err))
   }
 }
 
@@ -433,13 +465,34 @@ const supprimerAnimal = (request, response) => {
   let id_animal = request.cookies.id;
   findAnimalById(id_animal)
     .then(foundAnimal => {
-      console.log("Found animal : ", foundAnimal);
+      console.log("Found animal : ", foundAnimal.rows[0]);
+      foundAnimal = foundAnimal.rows[0];
       if (foundAnimal) {
-        return database.raw(
-          "UPDATE colliers SET id_animal_collier = ? WHERE id_collier = ?",
-          [null, foundAnimal.id_collier]
-        )
-        .then(() => {
+        if (foundAnimal.id_collier != null) {
+          return database.raw(
+            "UPDATE colliers SET id_animal_collier = ? WHERE id_collier = ?",
+            [null, foundAnimal.id_collier]
+          )
+          .then(() => {
+            return database.raw(
+              "DELETE FROM animaux WHERE id_animal = ?",
+              [foundAnimal.id_animal]
+            )
+            .then(() => {
+              response.redirect('/find');
+            })
+            .catch((err) => {
+              console.error(err)
+              errors.push({ message: err.detail });
+              response.redirect("/profil", { errors });
+            })
+          })
+          .catch((err) => {
+            console.error(err)
+            errors.push({ message: err.detail });
+            response.redirect("/profil", { errors });
+          })
+        } else {
           return database.raw(
             "DELETE FROM animaux WHERE id_animal = ?",
             [foundAnimal.id_animal]
@@ -450,17 +503,12 @@ const supprimerAnimal = (request, response) => {
           .catch((err) => {
             console.error(err)
             errors.push({ message: err.detail });
-            response.redirect("./profil", { errors });
+            response.redirect("/profil", { errors });
           })
-        })
-        .catch((err) => {
-          console.error(err)
-          errors.push({ message: err.detail });
-          response.redirect("./profil", { errors });
-        })
+        }
       } else {
         errors.push({ message: "Vous n'avez pas cet animal" });
-        response.redirect("./profil", { errors });
+        response.redirect("/profil", { errors });
       }
       return foundAnimal
     })
@@ -570,14 +618,118 @@ const supprimerCollier = (request, response) => {
 
 
 const modifierAnimal = (request, response) => {
+  console.log("Modification...");
+  const animal = request.body
+  console.log(animal);
+  let errors = [];
+  let validate = [];
+  let { nom_animal, type, naissance_animal, distance, id_collier } = request.body;
+  let id_client = request.session.id_client;
+
+  if (animal.distance == '') {
+    animal.distance = null;
+  }
+
+  if (animal.id_collier == '' || animal.id_collier == " ") {
+    animal.id_collier = null;
+  }
+  //console.log(id_collier);
+  if (!nom_animal || !type ) {
+    console.log("3");
+    errors.push({ message: "Please enter all fields" });
+  }
+
+  if (errors.length > 0) {
+    console.log("Et ça repart");
+    response.render("./profil", errors);
+  } else {
+    console.log("commence la modif");
+    return _modifyAnimal(animal)
+      .then(animalModifie => {
+        request.session.validate = "animal Bien modifié !";
+        validate.push({ message: "Animal bien modifié !" });
+        response.redirect('/find');
+      })
+      .catch((err) => console.error(err))
+  }
+}
+
+const _modifyAnimal = (animal) => {
+  console.log("_modifyAnimal : ", animal);
+  if (animal.naissance_animal == '') {
+    console.log("");
+    /// IL FAUDRA MODIFIER DE FACON QUE 9A MARCHE CORRECTEMENT POUR L4ENREGISTREMENT
+    return database.raw(
+      "UPDATE animaux SET nom_animal = ?, type_animal = ?, distance = ?, id_collier = ? WHERE id_animal = ? RETURNING id_animal, nom_animal, naissance_animal, type_animal, distance, id_collier, id_utilisateur",
+      [animal.nom_animal, animal.type, animal.distance, animal.id_collier, animal.id_animal]
+    )
+    .then((data) => {
+      console.log("data.rows[0] : ", data.rows[0]);
+      if (data.rows[0].id_collier == null) {
+        return database.raw(
+          "UPDATE colliers SET id_animal_collier = ? WHERE id_collier = ?",
+          [null, data.rows[0].id_collier]
+        )
+      }else {
+        return database.raw(
+          "UPDATE colliers SET id_animal_collier = ? WHERE id_collier = ?",
+          [data.rows[0].id_animal, data.rows[0].id_collier]
+        )
+      }
+    })
+  } else {
+    return database.raw(
+      "UPDATE animaux SET nom_animal = ?, naissance_animal = ?, type_animal = ?, distance = ?, id_collier = ? WHERE id_animal = ? RETURNING id_animal, nom_animal, naissance_animal, type_animal, distance, id_collier, id_utilisateur",
+      [animal.nom_animal, animal.naissance_animal, animal.type, animal.distance, animal.id_collier, animal.id_animal]
+    )
+    .then((data) => {
+      console.log("data.rows[0] : ", data.rows[0]);
+      if (data.rows[0].id_collier == null) {
+        return database.raw(
+          "UPDATE colliers SET id_animal_collier = ? WHERE id_collier = ?",
+          [null, data.rows[0].id_collier]
+        )
+      }else {
+        return database.raw(
+          "UPDATE colliers SET id_animal_collier = ? WHERE id_collier = ?",
+          [data.rows[0].id_animal, data.rows[0].id_collier]
+        )
+      }
+    })
+  }
+}
+
+const entreModif = (request, response) => {
+  console.log("Entrer Modification...");
+  let values = [];
+
   let id_animal = request.cookies.id;
   findAnimalById(id_animal)
     .then(foundAnimal => {
       //animaux = foundAnimals.rows
-      request.session.modifierAnimal = foundAnimal.rows;
-      response.render("_partial/profil/modifier/_modifier_animal");
+      //response.locals.user = foundAnimal.rows[0];
+      //response.status(200).json(foundAnimal.rows[0])
+      let animal = foundAnimal.rows[0];
+      console.log(animal);
+      values.push({ id_animal: animal.id_animal });
+      values.push({ id_collier: animal.id_collier });
+      values.push({ numero_collier: animal.numero_collier });
+      values.push({ id_client: animal.id_client });
+      values.push({ nom_animal: animal.nom_animal });
+      values.push({ naissance_animal: animal.naissance_animal });
+      values.push({ type_animal: animal.type_animal });
+      values.push({ distance: animal.distance });
+      values.push({ age_animal: animal.age_animal });
+
+      response.render("./profil2", { values });
     })
     .catch((err) => console.error(err))
+}
+
+const sortiModif = (request, response) => {
+  console.log("Sortie Modification...");
+
+  response.redirect("/profil");
 }
 
 // don't forget to export!
@@ -586,10 +738,13 @@ module.exports = {
   signin,
   modifyProfil,
   findAll,
+  findHome,
   findType,
   ajoutAnimal,
   ajoutCollier,
   supprimerCollier,
   supprimerAnimal,
-  modifierAnimal
+  modifierAnimal,
+  entreModif,
+  sortiModif
 }

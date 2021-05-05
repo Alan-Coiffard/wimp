@@ -62,18 +62,17 @@
       // Display a confirm alert
       document.querySelector("#modifier-<%= animal.id_animal%>").addEventListener("click", function() {
         var selected = document.getElementById('modifier-<%= animal.id_animal%>');
-        console.log(selected.id);
+        //console.log(selected.id);
         const words = selected.id.split('-');
         document.cookie = "id="+words[1];
 
-        window.location.href = "/modifierAnimal";
-
-        // console.log(document.cookie);
+        //console.log(document.cookie);
         // var modifyAnimal = document.getElementById("modifyAnimal");
         // modifyAnimal.style.display = "block";
         // modifyAnimal.name = words[1];
         // console.log(modifyAnimal.name);
 
+        window.location.href = "/entreModif";
       });
 
     </script>

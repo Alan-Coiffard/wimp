@@ -241,6 +241,15 @@
   top: 86px;
   display: none;
 }
+.modal-on {
+  width: 101%;
+  height: 100%;
+  background-color: var(--bleuleg);
+  z-index: 999999999;
+  position: absolute;
+  top: 86px;
+  display: block;
+}
 .form-ajout {
   padding: 10px;
 justify-content: space-around;

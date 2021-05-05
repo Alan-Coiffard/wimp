@@ -59,7 +59,7 @@
   </div>
 </div>
 
-<div id="modifyAnimal" class="modal">
+<div id="modifyAnimal" class="modal-on">
   <% console.log("Modifier est rafraichi"); %>
   <div class="block block-centre1 text-centre">
     <%- include ("_partial/profil/modifier/_modifier_animal.ejs"); %>
@@ -82,16 +82,16 @@
   function modifier(){
     var enteteN = document.getElementsByClassName("entete-normal");
     var enteteM = document.getElementsByClassName("entete-modifier");
-    //console.log(enteteN);
-    //console.log(enteteM);
+    console.log(enteteN);
+    console.log(enteteM);
     enteteN[0].style.display = "none";
     enteteM[0].style.display = "block";
   }
   function annuler(){
     var enteteN = document.getElementsByClassName("entete-normal");
     var enteteM = document.getElementsByClassName("entete-modifier");
-    //console.log(enteteN);
-    //console.log(enteteM);
+    console.log(enteteN);
+    console.log(enteteM);
     enteteN[0].style.display = "block";
     enteteM[0].style.display = "none";
   }
@@ -120,9 +120,9 @@
 <script type="text/javascript">
   var elem = document.getElementsByClassName("wrapper-body");
   var grandir = document.getElementsByClassName("wrapper-entete");
-  //console.log(grandir);
+  console.log(grandir);
   if (elem[0].scrollHeight > elem[0].clientHeight) {
-    //console.log("plus grand");
+    console.log("plus grand");
     grandir[0].style.paddingRight = "20px";
   }
 

@@ -1,31 +1,50 @@
-
 <h2><u>Modifier l'animal</u></h2>
-<% console.log("Animal trouvé pour modif --> ", user.modifierAnimal[0]); %>
-<form action="/ajoutAnimal" method="post" class="form-ajout">
 
-  <label><b>Nom de l'animal :</b> <input type="text" name="nom_animal" value="<%- user.modifierAnimal[0].nom_animal %>"></label>
+<script type="text/javascript">
+  if (document.cookie.id) {
+    console.log("coucou");
+  }
+</script>
+
+<% if (typeof values != 'undefined') { %>
+
+<form action="/modifierAnimal" method="post" class="form-ajout">
+  <input type="hidden" name="id_animal" value="<%= values[0].id_animal %>">
+  <label><b>Nom de l'animal :</b> <input type="text" name="nom_animal" value="<%= values[4].nom_animal %>"></label>
   <label><b>Type :</b>
     <select name="type" id="pet-select">
-      <option value="">--Choisir un type d'animal--</option>
+      <option value="<%= values[6].type_animal %>"><%= values[6].type_animal %></option>
       <% for (const type of locals.user.types) { %>
+        <% if(type.type != values[6].type_animal ){ %>
           <option name="type" value="<%= type.type %>"><%= type.type %></option>
+        <%}%>
       <%}%>
     </select>
   </label>
+  <script type="text/javascript">
+    var date = "<%-values[5].naissance_animal%>";
+    date = date.split(' ');
+    console.log(date[2],date[1],date[3]);
+  </script>
+  <label><b>Date de naissance :</b><input type="date" name="naissance_animal" value="13/01/1999"><script type="text/javascript">document.write(date[2],"/",date[1],"/",date[3])</script></label>
 
-  <label><b>Date de naissance :</b><input type="date" name="naissance_animal" value="<%- user.modifierAnimal[0].naissance_animal %>"></label>
-
-  <label><input id="check" type="checkbox" <% if(user.modifierAnimal[0].distance != null){ %> checked <%}%> onChange="verif();" />Distance maximal</label>
-  <div id="range" class="">
-    <input type="range" name="distance" class="notinput" min="0" max="100" value="<% if(user.modifierAnimal[0].distance != null){ user.modifierAnimal[0].distance }%>" oninput="document.getElementById('AfficheRange').textContent=value" />
-    <span id="AfficheRange"><%- user.modifierAnimal[0].distance %></span>m
+  <label><input id="checkM" type="checkbox" <% if (values[7].distance > 0) { %> checked <% } %> onChange="verif();" />Distance maximal</label>
+  <div id="rangeM" class="">
+    <input type="range" name="distance" class="notinput" min="0" max="100" value="0" oninput="document.getElementById('AfficheRangeM').textContent=value" />
+    <span id="AfficheRangeM">0</span>m
   </div>
+
   <label><b>Collier à utiliser :</b>
     <select name="id_collier" id="pet-select">
-      <option value="<%- user.modifierAnimal[0].id_collier %>"><%- user.modifierAnimal[0].numero_collier %></option>
+      <option value="<%= values[1].id_collier %>"><% if(values[1].id_collier == null) { %> Choisir un collier <%}else{%> <%= values[2].numero_collier %> <%}%></option>
+      <% if (values[1].id_collier != null) { %>
+        <option value="">Supprimer le collier</option>
+      <% } %>
       <% for (const collier of locals.user.colliers) { %>
         <% if(collier.id_animal_collier == null){ %>
+          <% if(collier.id_collier != values[1].id_collier ){ %>
           <option name="type" value="<%= collier.id_collier %>"><%= collier.numero_collier %></option>
+          <%}%>
         <%}%>
       <%}%>
     </select>
@@ -33,24 +52,26 @@
 
   <input type="submit" class="btn btn-envoyer" value="Ajouter" />
 </form>
+
 <button onclick="close_modifier();" type="button" class="btn btn-annuler" name="button">Annuler</button>
 
 <script type="text/javascript">
-function verif ()
-{
-    var etat = document.getElementById('check').checked;
-    if(etat)
-    {
-        document.getElementById('range').className = 'on';
-    }
-    else
-    {
-        document.getElementById('range').className = 'off';
-    }
-}
+  function verif()
+  {
+      var etat = document.getElementById('checkM').checked;
+      if(etat)
+      {
+          document.getElementById('rangeM').className = 'on';
+      }
+      else
+      {
+          document.getElementById('rangeM').className = 'off';
+      }
+  }
 function close_modifier(){
-  var modifyAnimal = document.getElementById('modifyAnimal');
-  modifyAnimal.style.display = "none";
+
+  window.location.href = "/find";
 }
 
 </script>
+<% } %>
