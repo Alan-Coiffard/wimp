@@ -1,28 +1,45 @@
 <h2><u>Ajouter un collier</u></h2>
+<p id="warning" style="color: var(--rougeleg); text-decoration: underline;"></p>
 <form action="/ajoutCollier" method="post" class="form-ajout">
-  <label><b>Numéros du collier :</b> <input type="text" name="numero_collier" value=""></label>
+  <label><b>Numéros du collier :</b> <input id="numero_collier" onchange="verifInputCollier();" type="text" name="numero_collier" value=""></label>
 
-  <input type="submit" class="btn btn-envoyer" value="Ajouter" />
+  <input type="submit" id="submit" disabled class="btn btn-envoyer" value="Ajouter" />
 </form>
 <button onclick="annuler_modal_2();" type="button" class="btn btn-annuler" name="button">Annuler</button>
 
 <script type="text/javascript">
-function verif ()
-{
-    var etat = document.getElementById('check').checked;
-    if(etat)
-    {
-        document.getElementById('range').className = 'on';
+
+  function verifInputCollier() {
+    var numero = document.getElementById('numero_collier');
+    var warning = document.getElementById('warning');
+    var verif = false;
+
+    var NUMERO_REGEX = /^[0-9]{3,7}$/;
+
+    if ( !NUMERO_REGEX.test(numero.value)) {
+      numero.style.backgroundColor = "var(--rougeleg)";
+      warning.innerHTML = "Un nombre entre 3 et 7 chiffre";
+      verif = false;
+    }else {
+      numero.style.backgroundColor = "var(--vertleg)";
+      warning.innerHTML = "";
+      verif = true;
     }
-    else
-    {
-        document.getElementById('range').className = 'off';
+
+
+    if( verif == true ){
+      document.getElementById("submit").disabled = false;
+      document.getElementById("submit").style.backgroundColor = "var(--marronleg)";
+    }else {
+      document.getElementById("submit").disabled = true;
+      document.getElementById("submit").style.backgroundColor = "var(--grisleg)";
     }
-}
-function annuler_modal_2(){
-  var addCollier = document.getElementById('addCollier');
-  console.log(addCollier);
-  addCollier.style.display = "none";
-}
+  }
+
+  function annuler_modal_2(){
+    var addCollier = document.getElementById('addCollier');
+    console.log(addCollier);
+    addCollier.style.display = "none";
+  }
 
 </script>

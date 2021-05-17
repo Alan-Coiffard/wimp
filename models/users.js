@@ -4,6 +4,8 @@ const configuration   = require('../knexfile')[environment];      // pull in cor
 const database        = require('knex')(configuration);           // define database based on above
 const bcrypt          = require('bcrypt')                         // bcrypt will encrypt passwords to be saved in db
 const crypto          = require('crypto')                         // built-in encryption node module
+const split           = require('split-string');
+
 
 // Inscription
 // app/models/user.js
@@ -244,14 +246,20 @@ const signin = (request, response) => {
       //response.status(200).json(user);
     })
     .catch((err) => {
-      console.error(err);
-      response.render("home/connexion", { err });
+      //console.error("coucou : ", err);
+      let message = "";
+      console.log(err);
+
+      console.log("Message : ", message);
+      errors.push({ message: "Erreur: Email/Mot de passe incorrect" });
+      response.render("home/connexion", { errors });
     })
 }
 
 // app/models/user.js
 const findAll = (request, response) => {
   console.log("Entrer dans find");
+
   //console.log(request.session.id_client);
   let errors = []
   if (!request.session.id_client) {
@@ -283,7 +291,15 @@ const findAll = (request, response) => {
         //console.log("Colliers: ", colliers);
         console.log("---------------------------------------------------------------------colliers");
         request.session.colliers = colliers;
-        response.redirect('/profil');
+
+        console.log("Validate : ", request.session.validate);
+        if (request.session.validate == undefined) {
+          response.redirect('/profil');
+        }else {
+          let validate = [];
+          validate.push({ message: request.session.validate });
+          response.render('./profil', { validate });
+        }
         //response.status(200).json(user);
       })
       .catch((err) => console.error(err))
@@ -420,8 +436,8 @@ const ajoutAnimal = (request, response) => {
   } else {
     return createAnimal(animal, id_client)
       .then(animalCree => {
-        request.session.validate = "animal Bien ajouté !";
-        validate.push({ message: "Animal bien ajouté !" });
+        request.session.validate = animal.nom_animal + " a bien été ajouté";
+        //validate.push({ message: animal.nom_animal });
         response.redirect('/find');
       })
       .catch((err) => console.error(err))
@@ -479,18 +495,19 @@ const supprimerAnimal = (request, response) => {
               [foundAnimal.id_animal]
             )
             .then(() => {
+              request.session.validate = foundAnimal.nom_animal + " a bien été supprimé";
               response.redirect('/find');
             })
             .catch((err) => {
               console.error(err)
-              errors.push({ message: err.detail });
-              response.redirect("/profil", { errors });
+              errors.push({ message: err });
+              response.render("/profil", { errors });
             })
           })
           .catch((err) => {
             console.error(err)
-            errors.push({ message: err.detail });
-            response.redirect("/profil", { errors });
+            errors.push({ message: err });
+            response.render("/profil", { errors });
           })
         } else {
           return database.raw(
@@ -498,23 +515,24 @@ const supprimerAnimal = (request, response) => {
             [foundAnimal.id_animal]
           )
           .then(() => {
+            request.session.validate = foundAnimal.nom_animal + " a bien été supprimé";
             response.redirect('/find');
           })
           .catch((err) => {
             console.error(err)
-            errors.push({ message: err.detail });
-            response.redirect("/profil", { errors });
+            errors.push({ message: err });
+            response.render("/profil", { errors });
           })
         }
       } else {
         errors.push({ message: "Vous n'avez pas cet animal" });
-        response.redirect("/profil", { errors });
+        response.render("/profil", { errors });
       }
       return foundAnimal
     })
     .catch((err) => {
       console.error(err)
-      errors.push({ message: err.detail });
+      errors.push({ message: err });
       response.render("./profil", { errors });
     })
 }
@@ -547,6 +565,7 @@ const ajoutCollier = (request, response) => {
         if (!foundCollier) {
           createCollier(collier, id_client)
           .then(collier => {
+            request.session.validate = "Collier : " + collier.numero_collier + " a bien été ajouté";
             response.redirect('/find');
           })
           .catch((err) => {
@@ -599,6 +618,7 @@ const supprimerCollier = (request, response) => {
           [foundCollier.id_collier]
         )
         .then(() => {
+          request.session.validate = "Collier : " + foundCollier.numero_collier + " a bien été supprimé";
           response.redirect('/find');
           //response.redirect('/find');
         })
@@ -646,7 +666,7 @@ const modifierAnimal = (request, response) => {
     console.log("commence la modif");
     return _modifyAnimal(animal)
       .then(animalModifie => {
-        request.session.validate = "animal Bien modifié !";
+        request.session.validate = animalModifie.nom_animal + " a bien été modifié";
         validate.push({ message: "Animal bien modifié !" });
         response.redirect('/find');
       })
@@ -711,6 +731,21 @@ const entreModif = (request, response) => {
       //response.status(200).json(foundAnimal.rows[0])
       let animal = foundAnimal.rows[0];
       console.log(animal);
+
+
+      let naissance = JSON.stringify(animal.naissance_animal);
+      var sepa = split(naissance, { separator: 'T' })
+      sepa[0] = sepa[0].replace('"',"");
+      console.log(sepa[0]);
+      var date = JSON.stringify(sepa[0]);
+      console.log(date);
+      date = split(date, { separator: '-' });
+      date[0] = date[0].replace('"',"");
+      date[2] = date[2].replace('"',"");
+      console.log(date);
+      //console.log(split(test, { separator: 'T' }));
+
+
       values.push({ id_animal: animal.id_animal });
       values.push({ id_collier: animal.id_collier });
       values.push({ numero_collier: animal.numero_collier });
@@ -720,6 +755,9 @@ const entreModif = (request, response) => {
       values.push({ type_animal: animal.type_animal });
       values.push({ distance: animal.distance });
       values.push({ age_animal: animal.age_animal });
+      values.push({ annee: date[0] });
+      values.push({ mois: date[1] });
+      values.push({ jour: date[2] });
 
       response.render("./profil2", { values });
     })

@@ -36,46 +36,7 @@
         <img src="https://img.icons8.com/android/15/000000/trash.png"/>
       </button>
     </div>
-    <script>
 
-    	// Display a confirm alert
-    	document.querySelector("#supprimer-<%= animal.id_animal%>").addEventListener("click", function() {
-        var selected = document.getElementById('supprimer-<%= animal.id_animal%>');
-        console.log(selected.id);
-        const words = selected.id.split('-');
-        document.cookie = "id="+words[1];
-
-        console.log(document.cookie);
-        let msg = "Veux-tu vraiment supprimer l'animal : " + selected.name;
-    		JSAlert.confirm(msg).then(function(result) {
-
-    			// Check if pressed yes
-    			if (!result)
-    				return;
-
-    			// User pressed yes!
-          window.location.href = "/supprimerAnimal";
-    		});
-
-    	});
-
-      // Display a confirm alert
-      document.querySelector("#modifier-<%= animal.id_animal%>").addEventListener("click", function() {
-        var selected = document.getElementById('modifier-<%= animal.id_animal%>');
-        //console.log(selected.id);
-        const words = selected.id.split('-');
-        document.cookie = "id="+words[1];
-
-        //console.log(document.cookie);
-        // var modifyAnimal = document.getElementById("modifyAnimal");
-        // modifyAnimal.style.display = "block";
-        // modifyAnimal.name = words[1];
-        // console.log(modifyAnimal.name);
-
-        window.location.href = "/entreModif";
-      });
-
-    </script>
     <% } %>
   </div>
 </div>
@@ -84,11 +45,4 @@
   <p>Vous n'avez pas d'animaux</p>
 </div>
 <%}%>
-<button type="button" onclick="ajouterAnimal();" class="btn btn-envoyer" name="button">Ajouter</button>
-
-<script type="text/javascript">
-  function ajouterAnimal(){
-    var addAnimal = document.getElementById("addAnimal");
-    addAnimal.style.display = "block";
-  }
-</script>
+<button type="button" class="btn btn-envoyer" name="button">Ajouter</button>

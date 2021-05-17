@@ -7,9 +7,11 @@
       <fieldset>
         <div>
           <label for="">Mail :      </label>
-          <input  type="text"
+          <input  type="email"
                   placeholder="Email"
+                  onchange="verifInput();"
                   name="email"
+                  id="email"
                   aria-describedby="basic-addon1">
         </div>
         <div>
@@ -17,13 +19,26 @@
           <input  type="password"
                   placeholder="Mot de passe"
                   name="password"
+                  id="password"
+                  onchange="verifInput();"
                   aria-describedby="basic-addon1">
         </div>
       </fieldset>
-      <input type="submit" class="btn btn-envoyer co" value="Connection" />
+      <input type="submit" id="submit" disabled class="btn btn-envoyer co submit" value="Connection" />
       <a href="/inscription" class="lien">Créer un compte</a>
 
     </form>
   </div>
 </div>
+<script type="text/javascript">
+  function verifInput() {
+    var email = document.getElementById('email');
+    var password = document.getElementById('password');
+
+    if(email.value != "" && password.value != ""){
+      document.getElementById("submit").disabled = false;
+      document.getElementById("submit").style.backgroundColor = "var(--marronleg)";
+    }
+  }
+</script>
 <%- include ("../_partial/_footer.ejs"); %>

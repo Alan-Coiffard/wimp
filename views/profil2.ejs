@@ -23,18 +23,7 @@
           <%= user.email %>
         <%}; %>
       </p>
-      <button type="button" class="btn btn-envoyer" onclick="modifier();" name="button">Modifier</button>
-    </div>
-    <div class="entete entete-modifier">
-      <h2><u>Profil</u></h2>
-      <form action="/modifierProfil" method="post">
-        <img src="images/profil.png" class="img-profil" alt="">
-        <p><b>Nom :</b> <input type="text" name="nom" value="<%- user.nom %>"></p>
-        <p><b>Prénom :</b> <input type="text" name="prenom" value="<%- user.prenom %>"></p>
-        <p><b>E-Mail :</b> <input type="mail" name="email" value="<%- user.email %>"></p>
-        <button onclick="annuler();" type="button" class="btn btn-annuler" name="button">Annuler</button>
-        <input type="submit" class="btn btn-envoyer" value="Modifier" />
-      </form>
+      <button type="button" class="btn btn-envoyer" name="button">Modifier</button>
     </div>
 
     <div class="choix">
@@ -44,10 +33,10 @@
 
     <div class="listes">
       <div id="ani" class="liste-animaux">
-        <%- include("_partial/profil/_liste_animaux.ejs"); %>
+        <%- include("_partial/profil/_liste_animaux2.ejs"); %>
       </div>
       <div id="col" class="liste-colliers">
-        <%- include("_partial/profil/_liste_collier.ejs"); %>
+        <%- include("_partial/profil/_liste_collier2.ejs"); %>
       </div>
     </div>
   </div>

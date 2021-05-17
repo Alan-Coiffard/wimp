@@ -21,14 +21,9 @@
       <%}%>
     </select>
   </label>
-  <script type="text/javascript">
-    var date = "<%-values[5].naissance_animal%>";
-    date = date.split(' ');
-    console.log(date[2],date[1],date[3]);
-  </script>
-  <label><b>Date de naissance :</b><input type="date" name="naissance_animal" value="13/01/1999"><script type="text/javascript">document.write(date[2],"/",date[1],"/",date[3])</script></label>
 
-  <label><input id="checkM" type="checkbox" <% if (values[7].distance > 0) { %> checked <% } %> onChange="verif();" />Distance maximal</label>
+  <label><b>Date de naissance : </b><input type="date" name="naissance_animal" value="<%= values[9].annee %>-<%= values[10].mois %>-<%= values[11].jour %>"></label>
+
   <div id="rangeM" class="">
     <input type="range" name="distance" class="notinput" min="0" max="100" value="0" oninput="document.getElementById('AfficheRangeM').textContent=value" />
     <span id="AfficheRangeM">0</span>m

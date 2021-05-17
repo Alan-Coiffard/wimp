@@ -3,6 +3,7 @@
   <a href="/" class="btn btn-retour" type="button">Retour</a>
   <div class="container">
     <h1 class="titre2">Inscription</h1>
+    <p id="warningPassword" style="color: var(--rougeleg); text-decoration: underline;"></p>
     <form class="inscription inscription-petit" action="/inscription" method="post">
       <div class="form-block">
         <!------------Slider du form-------------------->
@@ -14,24 +15,34 @@
                 <legend class="numbertext">1 / 2</legend>
                 <legend>Identitée</legend>
                 <div>
-                  <label for="">Mail :   </label>
+                  <p id="warningMail" style="color: var(--rougeleg); text-decoration: underline;"></p>
+                  <label for="">Adresse email</label>
                   <input  type="email"
+                          id="email"
+                          onchange="verifInput();"
                           placeholder="Adresse mail"
                           name="email"
+                          value="<% if (typeof email != 'undefined') { %><%= email %><% }%>"
                           aria-describedby="basic-addon1">
                 </div>
                 <div>
-                  <label for="">Nom :      </label>
+                  <label for="">Nom</label>
                   <input  type="text"
                           placeholder="Nom"
                           name="nom"
+                          onchange="verifInput();"
+                          id="nom"
+                          value="<% if (typeof nom != 'undefined') { %><%= nom %><% }%>"
                           aria-describedby="basic-addon1">
                 </div>
                 <div>
-                  <label for="">Prénom :   </label>
+                  <label for="">Prénom</label>
                   <input  type="text"
                           placeholder="Prénom"
+                          id="prenom"
+                          onchange="verifInput();"
                           name="prenom"
+                          value="<% if (typeof prenom != 'undefined') { %><%= prenom %><% }%>"
                           aria-describedby="basic-addon1">
                 </div>
               </fieldset>
@@ -45,16 +56,23 @@
                   <label for="">Mot de passe :      </label>
                   <input  type="password"
                           name="password"
+                          id="password"
+                          onchange="verifInput();"
                           placeholder="Mot de passe"
+                          value="<% if (typeof password != 'undefined') { %><%= password %><% }%>"
                           aria-describedby="basic-addon1">
                 </div>
                 <div>
                   <label for="">Confirmation :      </label>
                   <input  type="password"
                           placeholder="Mot de passe"
+                          id="password2"
+                          onchange="verifInput();"
+                          value="<% if (typeof password2 != 'undefined') { %><%= password2 %><% }%>"
                           aria-describedby="basic-addon1"
                           name="password2">
                 </div>
+                <p id="warningPassword2" style="color: var(--rougeleg); text-decoration: underline;"></p>
               </fieldset>
             </div>
             <!-- Next and previous buttons -->
@@ -65,12 +83,87 @@
         </div>
         <!---------------------Fin du Slider-------------------------->
       </div>
-      <input type="submit" class="btn btn-envoyer" value="Inscription" />
+      <input type="submit" id="submit" disabled class="btn btn-envoyer submit" value="Inscription" />
     </form>
     <a href="/connexion" class="lien">Déjà un compte ?</a>
   </div>
 </div>
 <script type="text/javascript">
+
+  function verifInput() {
+    var nom = document.getElementById('nom');
+    var prenom = document.getElementById('prenom');
+
+    var email = document.getElementById('email');
+    var warningEmail = document.getElementById('warningEmail');
+    var password = document.getElementById('password');
+    var warningPassword = document.getElementById('warningPassword');
+    var password2 = document.getElementById('password2');
+    var warningPassword2 = document.getElementById('warningPassword2');
+
+    var verifnom = false;
+    var verifprenom = false;
+    var verifemail = false;
+    var verifpassword = false;
+    var verifpassword2 = false;
+
+    var EMAIL_REGEX = /^[a-zA-Z0-9./_-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/;
+    if (!EMAIL_REGEX.test(email.value)) {
+      email.style.backgroundColor = "var(--rougeleg)";
+      warningMail.innerHTML = "L'adresse email n'est pas valide";
+      verifemail = false;
+    }else {
+      email.style.backgroundColor = "var(--vertleg)";
+      verifemail = true;
+    }
+
+    var PASWWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+    if (!PASWWORD_REGEX.test(password.value)) {
+      password.style.backgroundColor = "var(--rougeleg)";
+      if (password.value == null) {
+        warningPassword.innerHTML = "Le mot de passe n'est pas correct : <ul><li>8 caractere minimum</li><li>Une ou plusieur minuscule</li><li>Un ou plusieur chiffre</li><li>Un ou plusieur caractere spécial</li><li>Une ou plusieur majuscule</li></ul>";
+      }
+      verifpassword = false;
+    }else {
+      password.style.backgroundColor = "var(--vertleg)";
+      warningPassword.innerHTML = "";
+      verifpassword = true;
+      if (password.value != password2.value) {
+        password2.style.backgroundColor = "var(--rougeleg)";
+        warningPassword2.innerHTML = "Les mots de passe ne correspondent pas";
+        verifpassword2 = false;
+      }else {
+        password2.style.backgroundColor = "var(--vertleg)";
+        warningPassword2.innerHTML = "";
+        verifpassword2 = true;
+      }
+    }
+
+    if (nom.value != "") {
+      nom.style.backgroundColor = "var(--vertleg)";
+      verifnom = true;
+    } else {
+      nom.style.backgroundColor = "var(--rougeleg)";
+      verifnom = false;
+    }
+
+    if (prenom.value != "") {
+      prenom.style.backgroundColor = "var(--vertleg)";
+      verifprenom = true;
+    } else {
+      prenom.style.backgroundColor = "var(--rougeleg)";
+      verifprenom = false;
+    }
+
+    if( verifprenom == true && verifnom == true && verifemail == true && verifpassword == true && verifpassword2 == true ){
+      document.getElementById("submit").disabled = false;
+      document.getElementById("submit").style.backgroundColor = "var(--marronleg)";
+    }else {
+      document.getElementById("submit").disabled = true;
+      document.getElementById("submit").style.backgroundColor = "var(--grisleg)";
+    }
+  }
+
   var slideIndex = 1;
   showSlides(slideIndex);
 

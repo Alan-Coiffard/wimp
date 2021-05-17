@@ -413,6 +413,9 @@ element.style {
   margin-left: auto;
   margin-right: auto;
 }
+.submit {
+  background-color: var(--grisleg);
+}
 
 .btn-annuler {
   border-radius: 20px;

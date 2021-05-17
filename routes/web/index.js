@@ -6,7 +6,7 @@ var router = express.Router();
 
 router.use(function(req, res, next){
   //console.log('Dans index : ', req.session.colliers);
-  console.log('Dans index -> res.locals.user : ', req.session);
+  //console.log('Dans index -> res.locals.user : ', req.session);
   res.locals.user = req.session;
   next();
 });

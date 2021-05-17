@@ -1,0 +1,27 @@
+<h2>Liste des colliers</h2>
+<% if(locals.user.colliers[0]){ %>
+<div class="tab-overflow">
+  <div class="wrapper2 wrapper-entete">
+    <p>ID du colliers</p>
+    <p>Numéros du colliers</p>
+  </div>
+  <div class="wrapper2 wrapper-body">
+    <% for (const collier of locals.user.colliers) { %>
+      <div>
+        <p><%= collier.id_collier %></p>
+        <p><%= collier.numero_collier %></p>
+        <button id="test-<%= collier.id_collier %>" type="button" class="btn btn-modifier" value="<%= collier.id_collier %>" name="<%= collier.numero_collier %>">
+          <img src="https://img.icons8.com/android/15/000000/trash.png"/>
+        </button>
+      </div>
+
+    <%}%>
+  </div>
+</div>
+<%} else {%>
+<div>
+  <p>Vous n'avez pas de collier</p>
+</div>
+<%}%>
+
+<button type="button" class="btn btn-envoyer" name="button">Ajouter</button>

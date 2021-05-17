@@ -29,11 +29,12 @@
       <h2><u>Profil</u></h2>
       <form action="/modifierProfil" method="post">
         <img src="images/profil.png" class="img-profil" alt="">
-        <p><b>Nom :</b> <input type="text" name="nom" value="<%- user.nom %>"></p>
-        <p><b>Prénom :</b> <input type="text" name="prenom" value="<%- user.prenom %>"></p>
-        <p><b>E-Mail :</b> <input type="mail" name="email" value="<%- user.email %>"></p>
+        <p><b>Nom :</b> <input type="text" id="nom" onchange="verifInput();" name="nom" value="<%- user.nom %>"></p>
+        <p><b>Prénom :</b> <input type="text" id="prenom" onchange="verifInput();" name="prenom" value="<%- user.prenom %>"></p>
+        <p><b>E-Mail :</b> <input type="mail" id="email" onchange="verifInput();" name="email" value="<%- user.email %>"></p><p id="warningMail" style="color: var(--rougeleg); text-decoration: underline;"></p>
+
         <button onclick="annuler();" type="button" class="btn btn-annuler" name="button">Annuler</button>
-        <input type="submit" class="btn btn-envoyer" value="Modifier" />
+        <input type="submit" id="submit" class="btn btn-envoyer" value="Modifier" />
       </form>
     </div>
 
@@ -78,7 +79,54 @@
   </div>
 </div>
 
+
 <script type="text/javascript">
+
+  function verifInput() {
+    var nom = document.getElementById('nom');
+    var prenom = document.getElementById('prenom');
+    var email = document.getElementById('email');
+    var warningMail = document.getElementById('warningMail');
+
+    var verifnom = false;
+    var verifprenom = false;
+    var verifemail = false;
+
+    var EMAIL_REGEX = /^[a-zA-Z0-9./_-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/;
+    if (!EMAIL_REGEX.test(email.value)) {
+      email.style.backgroundColor = "var(--rougeleg)";
+      warningMail.innerHTML = "Le mail n'est pas valide ";
+      verifemail = false;
+    }else {
+      email.style.backgroundColor = "var(--vertleg)";
+      verifemail = true;
+    }
+
+    if (nom.value != "") {
+      nom.style.backgroundColor = "var(--vertleg)";
+      verifnom = true;
+    } else {
+      nom.style.backgroundColor = "var(--rougeleg)";
+      verifnom = false;
+    }
+
+    if (prenom.value != "") {
+      prenom.style.backgroundColor = "var(--vertleg)";
+      verifprenom = true;
+    } else {
+      prenom.style.backgroundColor = "var(--rougeleg)";
+      verifprenom = false;
+    }
+
+    if( verifprenom == true && verifnom == true && verifemail == true ){
+      document.getElementById("submit").disabled = false;
+      document.getElementById("submit").style.backgroundColor = "var(--marronleg)";
+    }else {
+      document.getElementById("submit").disabled = true;
+      document.getElementById("submit").style.backgroundColor = "var(--grisleg)";
+    }
+  }
+
   function modifier(){
     var enteteN = document.getElementsByClassName("entete-normal");
     var enteteM = document.getElementsByClassName("entete-modifier");

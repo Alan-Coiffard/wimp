@@ -1,13 +1,14 @@
 <h2><u>Ajouter un animal</u></h2>
 <form action="/ajoutAnimal" method="post" class="form-ajout">
-  <label><b>Nom de l'animal :</b> <input type="text" name="nom_animal" value=""></label>
+  <label><b>Nom de l'animal :</b> <input id="nomAnimal" onChange="verifInput();" type="text" name="nom_animal" value=""><p id="warningNomAnimal" style="color: var(--rougeleg); text-decoration: underline;"></p></label>
   <label><b>Type :</b>
-    <select name="type" id="pet-select">
+    <select id="type" name="type" onChange="verifInput();" id="pet-select">
       <option value="">--Choisir un type d'animal--</option>
       <% for (const type of locals.user.types) { %>
           <option name="type" value="<%= type.type %>"><%= type.type %></option>
       <%}%>
     </select>
+    <p id="warningType" style="color: var(--rougeleg); text-decoration: underline;"></p>
   </label>
 
   <label><b>Date de naissance :</b><input type="date" name="naissance_animal" value=""></label>
@@ -28,11 +29,50 @@
     </select>
   </label>
 
-  <input type="submit" class="btn btn-envoyer" value="Ajouter" />
+  <input type="submit" id="submit" disabled class="btn btn-envoyer" value="Ajouter" />
 </form>
 <button onclick="annuler_modal_1();" type="button" class="btn btn-annuler" name="button">Annuler</button>
 
 <script type="text/javascript">
+
+  function verifInput() {
+    var nomAnimal = document.getElementById('nomAnimal');
+    var warningNomAnimal = document.getElementById('warningNomAnimal');
+    var type = document.getElementById('type');
+    var warningType = document.getElementById('warningType');
+
+    var verifnomAnimal = false;
+    var veriftype = false;
+
+    if (nomAnimal.value != "") {
+      password2.style.backgroundColor = "var(--rougeleg)";
+      warningPassword2.innerHTML = "Les mots de passe ne correspondent pas";
+      verifpassword2 = false;
+    }else {
+      password2.style.backgroundColor = "var(--vertleg)";
+      warningPassword2.innerHTML = "";
+      verifpassword2 = true;
+    }
+
+    if (type.value != "") {
+      password2.style.backgroundColor = "var(--rougeleg)";
+      warningPassword2.innerHTML = "Les mots de passe ne correspondent pas";
+      verifpassword2 = false;
+    }else {
+      password2.style.backgroundColor = "var(--vertleg)";
+      warningPassword2.innerHTML = "";
+      verifpassword2 = true;
+    }
+
+    if( verifprenom == true && verifnom == true && verifemail == true && verifpassword == true && verifpassword2 == true ){
+      document.getElementById("submit").disabled = false;
+      document.getElementById("submit").style.backgroundColor = "var(--marronleg)";
+    }else {
+      document.getElementById("submit").disabled = true;
+      document.getElementById("submit").style.backgroundColor = "var(--grisleg)";
+    }
+  }
+
 function verif()
 {
     var etat = document.getElementById('check').checked;
